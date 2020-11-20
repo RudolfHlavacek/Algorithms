@@ -1,37 +1,51 @@
 #ifndef BINARYSEARCH_H_INCLUDED
 #define BINARYSEARCH_H_INCLUDED
 
-int A[1000], numberElements;
-int BinarySearch(int X)
+/******************************************************************************/
+/*                           Function declarations                            */
+/******************************************************************************/
+int BinarySearch(int *sorted_arr, int arr_size, int searched_item);
+int BinarySearchFirstOccurrence(int *sorted_arr, int arr_size, int searched_item);
+int BinarySearchLastOccurrence(int *sorted_arr, int arr_size, int searched_item);
+
+
+
+/******************************************************************************/
+/*                          Function implementation                           */
+/******************************************************************************/
+int BinarySearch(int *sorted_arr, int arr_size, int searched_item)
 {
-    int left = 1, right = numberElements, mid;
+    int left = 1, right = arr_size - 1, mid;
 
     while(left <= right)
     {
         mid = (left + right) / 2;
 
-        if(X == A[mid]) return mid;
-        else if(X < A[mid]) right = mid - 1;
-        else left = mid + 1;
+        if(searched_item == sorted_arr[mid])
+            return mid;
+        else if(searched_item < sorted_arr[mid])
+            right = mid - 1;
+        else
+            left = mid + 1;
     }
     return -1;
 }
 
-int BinarySearchFirstOccur(int *arr, int n, int x)
+int BinarySearchFirstOccurrence(int *sorted_arr, int arr_size, int searched_item)
 {
-    int left = 1, right = n-1, mid;
+    int left = 1, right = arr_size - 1, mid;
     int result = -1;
 
     while(left <= right)
     {
         mid = (left + right) / 2;
 
-        if(x == arr[mid])
+        if(searched_item == sorted_arr[mid])
         {
             result = mid;
             right = mid - 1;
         }
-        else if(x < arr[mid])
+        else if(searched_item < sorted_arr[mid])
             right = mid - 1;
         else
             left = mid + 1;
@@ -39,21 +53,21 @@ int BinarySearchFirstOccur(int *arr, int n, int x)
     return result;
 }
 
-int BinarySearchLastOccur(int *arr, int n, int x)
+int BinarySearchLastOccurrence(int *sorted_arr, int arr_size, int searched_item)
 {
-    int left = 1, right = n-1, mid;
+    int left = 1, right = arr_size - 1, mid;
     int result = -1;
 
     while(left <= right)
     {
         mid = (left + right) / 2;
 
-        if(x == arr[mid])
+        if(searched_item == sorted_arr[mid])
         {
             result = mid;
             left = mid + 1;
         }
-        else if(x < arr[mid])
+        else if(searched_item < sorted_arr[mid])
             right = mid - 1;
         else
             left = mid + 1;

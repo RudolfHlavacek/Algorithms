@@ -68,26 +68,29 @@ std::ofstream g("data.out");
 
 int main()
 {
+    int numberElements;
     f >> numberElements;
 
-    for(int i = 1; i<=numberElements; ++i)
+    int A[numberElements];
+    for(int i = 0; i<numberElements; ++i)
     {
         f >> A[i];
     }
 
-    int myRetVal = BinarySearch(19);
+
+    int myRetVal = BinarySearch(A, numberElements, 19);
     std::cout << myRetVal << std::endl;
-    std::cout << BinarySearch(21) << std::endl;
+    std::cout << BinarySearch(A, numberElements, 21) << std::endl;
 
     int B[] = {1, 3, 20, 20, 20, 45, 78};
     std::cout << "Size of array B is: " << sizeof(B)/sizeof(*B) << std::endl;
     int n = sizeof(B)/sizeof(*B);
 
     std::cout << "First occurrence at index: "
-         << BinarySearchFirstOccur(B, n, 20) << std::endl;
+         << BinarySearchFirstOccurrence(B, n, 20) << std::endl;
 
     std::cout << "Last occurrence at index:  "
-         << BinarySearchLastOccur(B, n, 20) << std::endl;
+         << BinarySearchLastOccurrence(B, n, 20) << std::endl;
 
     return 0;
 }
