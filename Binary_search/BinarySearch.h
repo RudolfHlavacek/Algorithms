@@ -1,21 +1,28 @@
 #ifndef BINARYSEARCH_H_INCLUDED
 #define BINARYSEARCH_H_INCLUDED
 
+
 /******************************************************************************/
 /*                           Function declarations                            */
 /******************************************************************************/
-int BinarySearch(int *sorted_arr, int arr_size, int searched_item);
-int BinarySearchFirstOccurrence(int *sorted_arr, int arr_size, int searched_item);
-int BinarySearchLastOccurrence(int *sorted_arr, int arr_size, int searched_item);
+template <typename T>
+int BinarySearch(T *sorted_arr, int arr_size, T searched_item);
+
+template <typename T>
+int BinarySearchFirstOccurrence(T *sorted_arr, int arr_size, T searched_item);
+
+template <typename T>
+int BinarySearchLastOccurrence(T *sorted_arr, int arr_size, T searched_item);
 
 
 
 /******************************************************************************/
 /*                          Function implementation                           */
 /******************************************************************************/
-int BinarySearch(int *sorted_arr, int arr_size, int searched_item)
+template <typename T>
+int BinarySearch(T *sorted_arr, int arr_size, T searched_item)
 {
-    int left = 1, right = arr_size - 1, mid;
+    int left = 0, right = arr_size - 1, mid;
 
     while(left <= right)
     {
@@ -31,9 +38,10 @@ int BinarySearch(int *sorted_arr, int arr_size, int searched_item)
     return -1;
 }
 
-int BinarySearchFirstOccurrence(int *sorted_arr, int arr_size, int searched_item)
+template <typename T>
+int BinarySearchFirstOccurrence(T *sorted_arr, int arr_size, T searched_item)
 {
-    int left = 1, right = arr_size - 1, mid;
+    int left = 0, right = arr_size - 1, mid;
     int result = -1;
 
     while(left <= right)
@@ -53,9 +61,10 @@ int BinarySearchFirstOccurrence(int *sorted_arr, int arr_size, int searched_item
     return result;
 }
 
-int BinarySearchLastOccurrence(int *sorted_arr, int arr_size, int searched_item)
+template <typename T>
+int BinarySearchLastOccurrence(T *sorted_arr, int arr_size, T searched_item)
 {
-    int left = 1, right = arr_size - 1, mid;
+    int left = 0, right = arr_size - 1, mid;
     int result = -1;
 
     while(left <= right)

@@ -6,65 +6,6 @@
 std::ifstream f("data.in");
 std::ofstream g("data.out");
 
-//int A[1000], numberElements;
-//int BinarySearch(int X)
-//{
-//    int left = 1, right = numberElements, mid;
-//
-//    while(left <= right)
-//    {
-//        mid = (left + right) / 2;
-//
-//        if(X == A[mid]) return mid;
-//        else if(X < A[mid]) right = mid - 1;
-//        else left = mid + 1;
-//    }
-//    return -1;
-//}
-//
-//int BinarySearchFirstOccur(int *arr, int n, int x)
-//{
-//    int left = 1, right = n-1, mid;
-//    int result = -1;
-//
-//    while(left <= right)
-//    {
-//        mid = (left + right) / 2;
-//
-//        if(x == arr[mid])
-//        {
-//            result = mid;
-//            right = mid - 1;
-//        }
-//        else if(x < arr[mid])
-//            right = mid - 1;
-//        else
-//            left = mid + 1;
-//    }
-//    return result;
-//}
-//
-//int BinarySearchLastOccur(int *arr, int n, int x)
-//{
-//    int left = 1, right = n-1, mid;
-//    int result = -1;
-//
-//    while(left <= right)
-//    {
-//        mid = (left + right) / 2;
-//
-//        if(x == arr[mid])
-//        {
-//            result = mid;
-//            left = mid + 1;
-//        }
-//        else if(x < arr[mid])
-//            right = mid - 1;
-//        else
-//            left = mid + 1;
-//    }
-//    return result;
-//}
 
 int main()
 {
@@ -80,17 +21,46 @@ int main()
 
     int myRetVal = BinarySearch(A, numberElements, 19);
     std::cout << myRetVal << std::endl;
-    std::cout << BinarySearch(A, numberElements, 21) << std::endl;
+    std::cout << BinarySearch(A, numberElements, 21) << "\n" << std::endl;
 
     int B[] = {1, 3, 20, 20, 20, 45, 78};
-    std::cout << "Size of array B is: " << sizeof(B)/sizeof(*B) << std::endl;
     int n = sizeof(B)/sizeof(*B);
+    std::cout << "Size of array B is: " << n << "\n" << std::endl;
+
 
     std::cout << "First occurrence at index: "
          << BinarySearchFirstOccurrence(B, n, 20) << std::endl;
 
     std::cout << "Last occurrence at index:  "
          << BinarySearchLastOccurrence(B, n, 20) << std::endl;
+
+
+
+    char ch_arr[] = {'A', 'B', 'C', 'D', 'D', 'D', 'X', 'Y', 'Z'};
+    n = sizeof(ch_arr)/sizeof(*ch_arr);
+    std::cout << "First occur of 'D': "
+         << BinarySearchFirstOccurrence(ch_arr, n, 'D') << std::endl;
+
+    std::cout << "Last occur of 'D':  "
+         << BinarySearchLastOccurrence(ch_arr, n, 'D') << std::endl;
+
+
+
+    std::string string_arr[] = {"Abe", "Bobby", "Cash", "Hannah", "Michael",
+                                "Zack", "Zack", "Zack", "bob", "test",
+                                "test", "test", "test", "test"};
+    n = sizeof(string_arr)/sizeof(*string_arr);
+
+    std::cout << "\n\n";
+    std::cout << "Size of string array: " << n << std::endl;
+
+    std::cout << "First occur of 'test': "
+                << BinarySearchFirstOccurrence<std::string>(string_arr, n, "test")
+                << std::endl;
+
+    std::cout << "Last occur of 'test':  "
+                << BinarySearchLastOccurrence<std::string>(string_arr, n, "test")
+                << std::endl;
 
     return 0;
 }
