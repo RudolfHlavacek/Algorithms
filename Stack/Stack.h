@@ -1,5 +1,4 @@
-#ifndef STACK_H
-#define STACK_H
+#pragma once
 
 template <class T>
 class Stack
@@ -23,7 +22,5 @@ private:
     int m_top;
     int m_capacity;
 };
-
-#endif // STACK_H
 
 #include "Stack.tpp"

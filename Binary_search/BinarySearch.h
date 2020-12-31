@@ -1,5 +1,4 @@
-#ifndef BINARYSEARCH_H_INCLUDED
-#define BINARYSEARCH_H_INCLUDED
+#pragma once
 
 
 /******************************************************************************/
@@ -83,5 +82,3 @@ int BinarySearchLastOccurrence(T *sorted_arr, int arr_size, T searched_item)
     }
     return result;
 }
-
-#endif // BINARYSEARCH_H_INCLUDED

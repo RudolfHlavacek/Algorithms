@@ -1,10 +1,9 @@
-#ifndef STACK_TPP
-#define STACK_TPP
+#pragma once
 
+#include "Stack.h"
 
 #include <iostream>
 
-#include "Stack.h"
 
 template <class T>
 Stack<T>::Stack()
@@ -96,5 +95,3 @@ int Stack<T>::getCapacity()
 {
     return m_capacity;
 }
-
-#endif // STACK_CPP

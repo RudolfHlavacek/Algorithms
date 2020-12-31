@@ -1,5 +1,4 @@
-#ifndef QUEUE_H
-#define QUEUE_H
+#pragma once
 
 template <class T>
 class Queue
@@ -25,5 +24,3 @@ class Queue
         int m_frontIndex;
         int m_count;
 };
-
-#endif // QUEUE_H
