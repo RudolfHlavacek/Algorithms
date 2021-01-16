@@ -158,8 +158,10 @@
     <ClCompile Include="examples\Main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="examples\binary_search_example.h" />
     <ClInclude Include="examples\queue_example.h" />
     <ClInclude Include="examples\stack_example.h" />
+    <ClInclude Include="src\BinarySearch.h" />
     <ClInclude Include="src\Queue.h" />
     <ClInclude Include="src\Stack.h" />
   </ItemGroup>

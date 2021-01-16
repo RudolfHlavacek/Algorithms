@@ -32,5 +32,11 @@
     <ClInclude Include="examples\queue_example.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\BinarySearch.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="examples\binary_search_example.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
