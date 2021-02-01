@@ -7,12 +7,14 @@
 /*                                Declarations                                */
 /******************************************************************************/
 
-template <class T>
+template <typename T>
 class Stack
 {
 public:
     Stack();
     Stack(int size);
+    Stack(const Stack<T>& other);
+    void operator=(const Stack<T>& other);
     virtual ~Stack();
 
     void push(T);
@@ -23,6 +25,7 @@ public:
     bool isEmpty();
     bool isFull();
     int getCapacity();
+    bool copy(const Stack<T>& other);
 
 private:
     T *m_arr;
@@ -33,7 +36,7 @@ private:
 /******************************************************************************/
 /*                               Implementation                               */
 /******************************************************************************/
-template <class T>
+template <typename T>
 Stack<T>::Stack()
 {
     const int size_default = 256;
@@ -43,7 +46,7 @@ Stack<T>::Stack()
     m_top = -1;
 }
 
-template <class T>
+template <typename T>
 Stack<T>::Stack(int size)
 {
     m_arr = new T[size];
@@ -51,13 +54,30 @@ Stack<T>::Stack(int size)
     m_top = -1;
 }
 
-template <class T>
+template <typename T>
+Stack<T>::Stack(const Stack<T>& other)
+    : m_top(other.m_top), m_capacity(other.m_capacity)
+{
+    m_arr = new T[m_capacity];
+    for (int i = 0; i < m_capacity; i++)
+    {
+        m_arr[i] = other.m_arr[i];
+    }
+}
+
+template <typename T>
+void Stack<T>::operator=(const Stack<T>& other)
+{
+    this->copy(other);
+}
+
+template <typename T>
 Stack<T>::~Stack()
 {
     delete[] m_arr;
 }
 
-template <class T>
+template <typename T>
 void Stack<T>::push(T x)
 {
     // Check for stack overflow.
@@ -71,7 +91,7 @@ void Stack<T>::push(T x)
     m_arr[++m_top] = x;
 }
 
-template <class T>
+template <typename T>
 T Stack<T>::pop()
 {
     // Check for stack underflow.
@@ -87,7 +107,7 @@ T Stack<T>::pop()
     return m_arr[m_top--];
 }
 
-template <class T>
+template <typename T>
 T Stack<T>::peek()
 {
     if (!isEmpty())
@@ -100,26 +120,42 @@ T Stack<T>::peek()
     }
 }
 
-template <class T>
+template <typename T>
 int Stack<T>::size()
 {
     return m_top + 1;
 }
 
-template <class T>
+template <typename T>
 bool Stack<T>::isEmpty()
 {
     return (m_top == -1);
 }
 
-template <class T>
+template <typename T>
 bool Stack<T>::isFull()
 {
     return (m_top == (m_capacity - 1));
 }
 
-template <class T>
+template <typename T>
 int Stack<T>::getCapacity()
 {
     return m_capacity;
+}
+
+template <typename T>
+bool Stack<T>::copy(const Stack<T>& other)
+{
+    if (m_capacity >= other.m_top+1)
+    {
+        m_top = other.m_top;
+        for (int i = 0; i < this->size(); i++)
+        {
+            m_arr[i] = other.m_arr[i];
+        }
+        return true;
+    }
+    else
+        return false;
 }
