@@ -95,7 +95,7 @@ namespace AlgorithmsTests
 			Assert::AreEqual(1, q.size());
 		}
 
-		TEST_METHOD(Stack_isEmpty)
+		TEST_METHOD(Queue_isEmpty)
 		{
 			Queue<int> q(5);
 
@@ -136,7 +136,7 @@ namespace AlgorithmsTests
 			Assert::AreEqual(false, q.isFull());
 		}
 
-		TEST_METHOD(Stack_getCapacity)
+		TEST_METHOD(Queue_getCapacity)
 		{
 			Queue<int> q(5);
 
@@ -158,183 +158,172 @@ namespace AlgorithmsTests
 			Assert::AreEqual(5, q.getCapacity());
 		}
 
-		//TEST_METHOD(Stack_getCapacity_2)
-		//{
-		//	Stack<int> st(42);
+		TEST_METHOD(CopyCtor)
+		{
+			Queue<int> q_1(5);
 
-		//	Assert::AreEqual(42, st.getCapacity());
+			q_1.enqueue(1);
+			q_1.enqueue(11);
+			q_1.enqueue(111);
 
-		//	st.push(42);
-		//	Assert::AreEqual(42, st.getCapacity());
+			Queue<int> q_copy(q_1);
 
-		//	st.push(42);
-		//	Assert::AreEqual(42, st.getCapacity());
+			Assert::AreEqual(3, q_1.size());
+			Assert::AreEqual(3, q_copy.size());
 
-		//	st.peek();
-		//	Assert::AreEqual(42, st.getCapacity());
+			Assert::AreEqual(5, q_1.getCapacity());
+			Assert::AreEqual(5, q_copy.getCapacity());
 
-		//	st.pop();
-		//	Assert::AreEqual(42, st.getCapacity());
+			Assert::AreEqual(1, q_1.peek());
+			Assert::AreEqual(1, q_copy.peek());
 
-		//	st.pop();
-		//	Assert::AreEqual(42, st.getCapacity());
-		//}
+			q_1.dequeue();
+			Assert::AreEqual(11, q_1.peek());
+			Assert::AreEqual(1, q_copy.peek());
+		}
 
-		//TEST_METHOD(CopyCtor)
-		//{
-		//	Stack<int> st_1(5);
+		TEST_METHOD(Queue_copy_true)
+		{
+			Queue<int> q_1(5);
+			Queue<int> q_copy(3);
 
-		//	st_1.push(1);
-		//	st_1.push(11);
-		//	st_1.push(111);
+			q_1.enqueue(1);
+			q_1.enqueue(11);
+			q_1.enqueue(111);
 
-		//	Stack<int> st_2(st_1);
+			Assert::AreEqual(true, q_copy.copy(q_1));
 
-		//	Assert::AreEqual(3, st_1.size());
-		//	Assert::AreEqual(3, st_2.size());
+			Assert::AreEqual(3, q_1.size());
+			Assert::AreEqual(3, q_copy.size());
 
-		//	Assert::AreEqual(5, st_1.getCapacity());
-		//	Assert::AreEqual(5, st_2.getCapacity());
+			Assert::AreEqual(1, q_1.peek());
+			Assert::AreEqual(1, q_copy.peek());
 
-		//	Assert::AreEqual(111, st_1.peek());
-		//	Assert::AreEqual(111, st_2.peek());
+			q_1.dequeue();
+			Assert::AreEqual(11, q_1.peek());
+			Assert::AreEqual(1, q_copy.peek());
+		}
 
-		//	st_1.pop();
-		//	Assert::AreEqual(11, st_1.peek());
-		//	Assert::AreEqual(111, st_2.peek());
-		//}
+		TEST_METHOD(Queue_copy_false)
+		{
+			Queue<int> q_1(5);
+			Queue<int> q_copy(2);
 
-		//TEST_METHOD(Stack_copy_true)
-		//{
-		//	Stack<int> st_1(5);
-		//	Stack<int> st_2(3);
+			q_1.enqueue(1);
+			q_1.enqueue(11);
+			q_1.enqueue(111);
 
-		//	st_1.push(1);
-		//	st_1.push(11);
-		//	st_1.push(111);
+			Assert::AreEqual(false, q_copy.copy(q_1));
+			Assert::AreEqual(0, q_copy.size());
+			Assert::AreEqual(true, q_copy.isEmpty());
+		}
 
-		//	Assert::AreEqual(true, st_2.copy(st_1));
+		TEST_METHOD(Queue_operatorEqual_true)
+		{
+			Queue<int> q_1(5);
+			Queue<int> q_copy(3);
 
-		//	Assert::AreEqual(3, st_1.size());
-		//	Assert::AreEqual(3, st_2.size());
+			q_1.enqueue(1);
+			q_1.enqueue(11);
+			q_1.enqueue(111);
 
-		//	Assert::AreEqual(111, st_1.peek());
-		//	Assert::AreEqual(111, st_2.peek());
+			q_copy = q_1;
 
-		//	st_1.pop();
-		//	Assert::AreEqual(11, st_1.peek());
-		//	Assert::AreEqual(111, st_2.peek());
-		//}
+			Assert::AreEqual(5, q_1.getCapacity());
+			Assert::AreEqual(3, q_copy.getCapacity());
 
-		//TEST_METHOD(Stack_copy_false)
-		//{
-		//	Stack<int> st_1(5);
-		//	Stack<int> st_2(2);
+			Assert::AreEqual(3, q_1.size());
+			Assert::AreEqual(3, q_copy.size());
 
-		//	st_1.push(1);
-		//	st_1.push(11);
-		//	st_1.push(111);
+			Assert::AreEqual(1, q_1.peek());
+			Assert::AreEqual(1, q_copy.peek());
 
-		//	Assert::AreEqual(false, st_2.copy(st_1));
-		//	Assert::AreEqual(0, st_2.size());
-		//	Assert::AreEqual(true, st_2.isEmpty());
-		//}
+			q_1.dequeue();
+			Assert::AreEqual(11, q_1.peek());
+			Assert::AreEqual(1, q_copy.peek());
+		}
 
-		//TEST_METHOD(Stack_operatorEqual_true)
-		//{
-		//	Stack<int> st_1(5);
-		//	Stack<int> st_2(3);
+		TEST_METHOD(Queue_operatorEqual_false)
+		{
+			Queue<int> q_1(5);
+			Queue<int> q_copy(2);
 
-		//	st_1.push(1);
-		//	st_1.push(11);
-		//	st_1.push(111);
+			q_1.enqueue(1);
+			q_1.enqueue(11);
+			q_1.enqueue(111);
 
-		//	st_2 = st_1;
+			q_copy = q_1;
 
-		//	Assert::AreEqual(5, st_1.getCapacity());
-		//	Assert::AreEqual(3, st_2.getCapacity());
+			Assert::AreEqual(3, q_1.size());
+			Assert::AreEqual(1, q_1.peek());
 
-		//	Assert::AreEqual(3, st_1.size());
-		//	Assert::AreEqual(3, st_2.size());
+			Assert::AreEqual(0, q_copy.size());
+			Assert::AreEqual(true, q_copy.isEmpty());
 
-		//	Assert::AreEqual(111, st_1.peek());
-		//	Assert::AreEqual(111, st_2.peek());
+		}
 
-		//	st_1.pop();
-		//	Assert::AreEqual(11, st_1.peek());
-		//	Assert::AreEqual(111, st_2.peek());
-		//}
+		TEST_METHOD(Queue_char)
+		{
+			Queue<char> q(3);
 
-		//TEST_METHOD(Stack_operatorEqual_false)
-		//{
-		//	Stack<int> st_1(5);
-		//	Stack<int> st_2(2);
+			q.enqueue('A');
+			q.enqueue('B');
+			q.enqueue('C');
 
-		//	st_1.push(1);
-		//	st_1.push(11);
-		//	st_1.push(111);
+			Assert::AreEqual(false, q.isEmpty());
+			Assert::AreEqual(true, q.isFull());
+			Assert::AreEqual('A', q.peek());
+			Assert::AreEqual('A', q.peek());
 
-		//	st_2 = st_1;
+			q.dequeue();
+			Assert::AreEqual('B', q.peek());
+			Assert::AreEqual(false, q.isEmpty());
+			Assert::AreEqual(false, q.isFull());
 
-		//	Assert::AreEqual(3, st_1.size());
-		//	Assert::AreEqual(111, st_1.peek());
+			q.dequeue();
+			Assert::AreEqual('C', q.peek());
+			Assert::AreEqual(false, q.isEmpty());
+			Assert::AreEqual(false, q.isFull());
 
-		//	Assert::AreEqual(0, st_2.size());
-		//	Assert::AreEqual(true, st_2.isEmpty());
+			q.dequeue();
+			Assert::AreEqual(true, q.isEmpty());
+			Assert::AreEqual(false, q.isFull());
+		}
 
-		//}
+		TEST_METHOD(Queue_string)
+		{
+			Queue<std::string> q(3);
 
-		//TEST_METHOD(Stack_char)
-		//{
-		//	Stack<char> st(3);
+			q.enqueue("One");
+			q.enqueue("Two");
+			q.enqueue("Three");
 
-		//	st.push('A');
-		//	st.push('B');
-		//	st.push('C');
+			Assert::AreEqual(false, q.isEmpty());
+			Assert::AreEqual(true, q.isFull());
+			Assert::AreEqual<std::string>("One", q.peek());
+			Assert::AreEqual<std::string>("One", q.peek());
 
-		//	Assert::AreEqual(false, st.isEmpty());
-		//	Assert::AreEqual(true, st.isFull());
-		//	Assert::AreEqual('C', st.peek());
-		//	Assert::AreEqual('C', st.pop());
-		//	Assert::AreEqual('B', st.pop());
-		//	Assert::AreEqual('A', st.pop());
-		//	Assert::AreEqual(true, st.isEmpty());
-		//	Assert::AreEqual(false, st.isFull());
-		//}
+			q.dequeue();
+			Assert::AreEqual<std::string>("Two", q.peek());
 
-		//TEST_METHOD(Stack_string)
-		//{
-		//	Stack<std::string> st(3);
+			q.dequeue();
+			Assert::AreEqual<std::string>("Three", q.peek());
+		}
 
-		//	st.push("One");
-		//	st.push("Two");
-		//	st.push("Three");
+		TEST_METHOD(Queue_string_copy)
+		{
+			Queue<std::string> q(3);
 
-		//	Assert::AreEqual(false, st.isEmpty());
-		//	Assert::AreEqual(true, st.isFull());
-		//	Assert::AreEqual<std::string>("Three", st.peek());
-		//	Assert::AreEqual<std::string>("Three", st.pop());
-		//	Assert::AreEqual<std::string>("Two", st.pop());
-		//	Assert::AreEqual<std::string>("One", st.pop());
-		//	Assert::AreEqual(true, st.isEmpty());
-		//	Assert::AreEqual(false, st.isFull());
+			q.enqueue("One");
+			q.enqueue("Two");
+			q.enqueue("Three");
 
-		//}
+			Queue<std::string> q_copy = q;
+			q.dequeue();
 
-		//TEST_METHOD(Stack_string_copy)
-		//{
-		//	Stack<std::string> st(3);
-
-		//	st.push("One");
-		//	st.push("Two");
-		//	st.push("Three");
-
-		//	Stack<std::string> st_copy = st;
-		//	st.pop();
-
-		//	Assert::AreEqual<std::string>("Two", st.peek());
-		//	Assert::AreEqual<std::string>("Three", st_copy.peek());
-		//}
+			Assert::AreEqual<std::string>("Two", q.peek());
+			Assert::AreEqual<std::string>("One", q_copy.peek());
+		}
 
 	};
 }

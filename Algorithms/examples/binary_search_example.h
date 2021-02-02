@@ -21,9 +21,9 @@ int binary_search_example()
     }
 
 
-    int myRetVal = BinarySearch(A, numberElements, 19);
+    int myRetVal = rh::BinarySearch(A, numberElements, 19);
     std::cout << myRetVal << std::endl;
-    std::cout << BinarySearch(A, numberElements, 21) << "\n" << std::endl;
+    std::cout << rh::BinarySearch(A, numberElements, 21) << "\n" << std::endl;
 
     int B[] = {1, 3, 20, 20, 20, 45, 78};
     int n = sizeof(B)/sizeof(*B);
@@ -31,20 +31,20 @@ int binary_search_example()
 
 
     std::cout << "First occurrence at index: "
-         << BinarySearchFirstOccurrence(B, n, 20) << std::endl;
+         << rh::BinarySearchFirstOccurrence(B, n, 20) << std::endl;
 
     std::cout << "Last occurrence at index:  "
-         << BinarySearchLastOccurrence(B, n, 20) << std::endl;
+         << rh::BinarySearchLastOccurrence(B, n, 20) << std::endl;
 
 
 
     char ch_arr[] = {'A', 'B', 'C', 'D', 'D', 'D', 'X', 'Y', 'Z'};
     n = sizeof(ch_arr)/sizeof(*ch_arr);
     std::cout << "First occur of 'D': "
-         << BinarySearchFirstOccurrence(ch_arr, n, 'D') << std::endl;
+         << rh::BinarySearchFirstOccurrence(ch_arr, n, 'D') << std::endl;
 
     std::cout << "Last occur of 'D':  "
-         << BinarySearchLastOccurrence(ch_arr, n, 'D') << std::endl;
+         << rh::BinarySearchLastOccurrence(ch_arr, n, 'D') << std::endl;
 
 
 
@@ -57,11 +57,11 @@ int binary_search_example()
     std::cout << "Size of string array: " << n << std::endl;
 
     std::cout << "First occur of 'test': "
-                << BinarySearchFirstOccurrence<std::string>(string_arr, n, "test")
+                << rh::BinarySearchFirstOccurrence<std::string>(string_arr, n, "test")
                 << std::endl;
 
     std::cout << "Last occur of 'test':  "
-                << BinarySearchLastOccurrence<std::string>(string_arr, n, "test")
+                << rh::BinarySearchLastOccurrence<std::string>(string_arr, n, "test")
                 << std::endl;
 
     return 0;

@@ -6,12 +6,14 @@
 /******************************************************************************/
 /*                                Declarations                                */
 /******************************************************************************/
-template <class T>
+template <typename T>
 class Queue
 {
     public:
         Queue();
         Queue(int max_capacity);
+        Queue(const Queue<T>& other);
+        void operator=(const Queue<T>& other);
         virtual ~Queue();
 
         void enqueue(T x);
@@ -22,6 +24,7 @@ class Queue
         bool isEmpty();
         bool isFull();
         int getCapacity();
+        bool copy(const Queue<T>& other);
 
     private:
         T *arr;
@@ -35,7 +38,7 @@ class Queue
 /******************************************************************************/
 /*                               Implementation                               */
 /******************************************************************************/
-template <class T>
+template <typename T>
 Queue<T>::Queue()
 {
     const int max_capacity_default = 256;
@@ -47,7 +50,7 @@ Queue<T>::Queue()
     m_count = 0;
 }
 
-template <class T>
+template <typename T>
 Queue<T>::Queue(int max_capacity)
 {
     arr = new T[max_capacity];
@@ -57,13 +60,31 @@ Queue<T>::Queue(int max_capacity)
     m_count = 0;
 }
 
-template <class T>
+template <typename T>
+Queue<T>::Queue(const Queue<T>& other)
+    : m_capacity(other.m_capacity), m_backIndex(other.m_backIndex),
+      m_frontIndex(other.m_frontIndex), m_count(other.m_count)
+{
+    arr = new T[m_capacity];
+    for (int i = 0; i < m_capacity; i++)
+    {
+        arr[i] = other.arr[i];
+    }
+}
+
+template <typename T>
+void Queue<T>::operator=(const Queue<T>& other)
+{
+    this->copy(other);
+}
+
+template <typename T>
 Queue<T>::~Queue()
 {
     delete[] arr;
 }
 
-template <class T>
+template <typename T>
 void Queue<T>::enqueue(T x)
 {
     // Check for queue overflow.
@@ -82,7 +103,7 @@ void Queue<T>::enqueue(T x)
     }
 }
 
-template <class T>
+template <typename T>
 void Queue<T>::dequeue()
 {
     // Check for queue underflow.
@@ -100,7 +121,7 @@ void Queue<T>::dequeue()
     }
 }
 
-template <class T>
+template <typename T>
 T Queue<T>::peek()
 {
     if (isEmpty())
@@ -111,26 +132,44 @@ T Queue<T>::peek()
     return arr[m_frontIndex];
 }
 
-template <class T>
+template <typename T>
 int Queue<T>::size()
 {
     return m_count;
 }
 
-template <class T>
+template <typename T>
 bool Queue<T>::isEmpty()
 {
     return (m_count == 0);
 }
 
-template <class T>
+template <typename T>
 bool Queue<T>::isFull()
 {
     return (m_count == m_capacity);
 }
 
-template <class T>
+template <typename T>
 int Queue<T>::getCapacity()
 {
     return m_capacity;
+}
+
+template <typename T>
+bool Queue<T>::copy(const Queue<T>& other)
+{
+    if (m_capacity >= other.m_count)
+    {
+        m_backIndex = other.m_backIndex;
+        m_frontIndex = other.m_frontIndex;
+        m_count = other.m_count;
+        for (int i = 0; i < other.m_count; i++)
+        {
+            arr[i] = other.arr[i];
+        }
+        return true;
+    }
+    else
+        return false;
 }
