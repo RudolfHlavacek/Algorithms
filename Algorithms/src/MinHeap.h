@@ -1,7 +1,9 @@
 #pragma once
 
 namespace rh {
-
+/******************************************************************************/
+/*                                Declarations                                */
+/******************************************************************************/
     template <typename T>
     class MinHeap
     {
@@ -32,6 +34,10 @@ namespace rh {
         void resize(int new_size);
     };
 
+
+/******************************************************************************/
+/*                               Implementation                               */
+/******************************************************************************/
     template <typename T>
     MinHeap<T>::MinHeap(int capacity)
         : m_size(0), m_capacity(capacity)
@@ -81,6 +87,38 @@ namespace rh {
         return res;
     }
 
+
+    template <typename T>
+    int MinHeap<T>::size()
+    {
+        return m_size;
+    }
+
+    template <typename T>
+    bool MinHeap<T>::isFull()
+    {
+        return m_size >= m_capacity;
+    }
+
+    template <typename T>
+    void MinHeap<T>::resize(int new_size)
+    {
+        if (new_size > m_size)
+        {
+            T* temp_heap = new T[new_size];
+            for (int i = 0; i < m_size; i++)
+            {
+                temp_heap[i] = m_heap[i];
+            }
+            delete[] m_heap;
+            m_heap = temp_heap;
+            m_capacity = new_size;
+        }
+    }
+
+/******************************************************************************/
+/*                       Private Methods Implementation                       */
+/******************************************************************************/
     template <typename T>
     int MinHeap<T>::parent(int index)
     {
@@ -141,34 +179,6 @@ namespace rh {
         int temp = m_heap[index_1];
         m_heap[index_1] = m_heap[index_2];
         m_heap[index_2] = temp;
-    }
-
-    template <typename T>
-    int MinHeap<T>::size()
-    {
-        return m_size;
-    }
-
-    template <typename T>
-    bool MinHeap<T>::isFull()
-    {
-        return m_size >= m_capacity;
-    }
-
-    template <typename T>
-    void MinHeap<T>::resize(int new_size)
-    {
-        if (new_size > m_size)
-        {
-            T* temp_heap = new T[new_size];
-            for (int i = 0; i < m_size; i++)
-            {
-                temp_heap[i] = m_heap[i];
-            }
-            delete[] m_heap;
-            m_heap = temp_heap;
-            m_capacity = new_size;
-        }
     }
 
 }
