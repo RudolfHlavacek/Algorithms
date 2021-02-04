@@ -25,7 +25,7 @@ namespace rh {
         virtual ~MinHeap();
 
         void insert(T elem);
-        T getMin();
+        T peekMin();
         void deleteMin();
         T extractMin();
 
@@ -66,7 +66,7 @@ namespace rh {
     }
 
     template <typename T>
-    T MinHeap<T>::getMin()
+    T MinHeap<T>::peekMin()
     {
         return m_heap[0];
     }
@@ -132,7 +132,7 @@ namespace rh {
     int MinHeap<T>::left(int index)
     {
         int l = 2 * index + 1;
-        if (l > m_size)
+        if (l > m_size - 1)
             return -1;
         else
             return l;
@@ -142,7 +142,7 @@ namespace rh {
     int MinHeap<T>::right(int index)
     {
         int r = 2 * index + 2;
-        if (r > m_size)
+        if (r > m_size - 1)
             return -1;
         else
             return r;
