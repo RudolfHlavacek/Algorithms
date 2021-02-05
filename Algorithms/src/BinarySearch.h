@@ -6,13 +6,13 @@ namespace rh {
     /*                           Function declarations                            */
     /******************************************************************************/
     template <typename T>
-    int BinarySearch(T* sorted_arr, int arr_size, T searched_item);
+    int BinarySearch(const T * const sorted_arr, int arr_size, T searched_item);
 
     template <typename T>
-    int BinarySearchFirstOccurrence(T* sorted_arr, int arr_size, T searched_item);
+    int BinarySearchFirstOccurrence(const T* const sorted_arr, int arr_size, T searched_item);
 
     template <typename T>
-    int BinarySearchLastOccurrence(T* sorted_arr, int arr_size, T searched_item);
+    int BinarySearchLastOccurrence(const T * const sorted_arr, int arr_size, T searched_item);
 
 
 
@@ -20,7 +20,7 @@ namespace rh {
     /*                          Function implementation                           */
     /******************************************************************************/
     template <typename T>
-    int BinarySearch(T* sorted_arr, int arr_size, T searched_item)
+    int BinarySearch(const T * const sorted_arr, int arr_size, T searched_item)
     {
         int left = 0, right = arr_size - 1, mid;
 
@@ -39,7 +39,7 @@ namespace rh {
     }
 
     template <typename T>
-    int BinarySearchFirstOccurrence(T* sorted_arr, int arr_size, T searched_item)
+    int BinarySearchFirstOccurrence(const T * const sorted_arr, int arr_size, T searched_item)
     {
         int left = 0, right = arr_size - 1, mid;
         int result = -1;
@@ -62,7 +62,7 @@ namespace rh {
     }
 
     template <typename T>
-    int BinarySearchLastOccurrence(T* sorted_arr, int arr_size, T searched_item)
+    int BinarySearchLastOccurrence(const T * const sorted_arr, int arr_size, T searched_item)
     {
         int left = 0, right = arr_size - 1, mid;
         int result = -1;

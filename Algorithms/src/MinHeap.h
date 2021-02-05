@@ -13,9 +13,9 @@ namespace rh {
         T* m_heap;
 
     private:
-        int parent(int index);
-        int left(int index);
-        int right(int index);
+        int parent(int index) const;
+        int left(int index) const;
+        int right(int index) const;
         void heapifyUp(int index);
         void heapifyDown(int index);
         void swap(int index_1, int index_2);
@@ -25,12 +25,12 @@ namespace rh {
         virtual ~MinHeap();
 
         void insert(T elem);
-        T peekMin();
+        T peekMin() const;
         void deleteMin();
         T extractMin();
 
-        int size();
-        bool isFull();
+        int size() const;
+        bool isFull() const;
         void resize(int new_size);
     };
 
@@ -66,7 +66,7 @@ namespace rh {
     }
 
     template <typename T>
-    T MinHeap<T>::peekMin()
+    T MinHeap<T>::peekMin() const
     {
         return m_heap[0];
     }
@@ -89,13 +89,13 @@ namespace rh {
 
 
     template <typename T>
-    int MinHeap<T>::size()
+    int MinHeap<T>::size() const
     {
         return m_size;
     }
 
     template <typename T>
-    bool MinHeap<T>::isFull()
+    bool MinHeap<T>::isFull() const
     {
         return m_size >= m_capacity;
     }
@@ -120,7 +120,7 @@ namespace rh {
 /*                       Private Methods Implementation                       */
 /******************************************************************************/
     template <typename T>
-    int MinHeap<T>::parent(int index)
+    int MinHeap<T>::parent(int index) const
     {
         if (index <= 0)
             return -1;
@@ -129,7 +129,7 @@ namespace rh {
     }
 
     template <typename T>
-    int MinHeap<T>::left(int index)
+    int MinHeap<T>::left(int index) const
     {
         int l = 2 * index + 1;
         if (l > m_size - 1)
@@ -139,7 +139,7 @@ namespace rh {
     }
 
     template <typename T>
-    int MinHeap<T>::right(int index)
+    int MinHeap<T>::right(int index) const
     {
         int r = 2 * index + 2;
         if (r > m_size - 1)

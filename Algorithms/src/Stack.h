@@ -19,12 +19,12 @@ public:
 
     void push(T);
     T pop();
-    T peek();
+    T peek() const;
 
-    int size();
-    bool isEmpty();
-    bool isFull();
-    int getCapacity();
+    int size() const;
+    bool isEmpty() const;
+    bool isFull() const;
+    int getCapacity() const;
     bool copy(const Stack<T>& other);
 
 private:
@@ -108,7 +108,7 @@ T Stack<T>::pop()
 }
 
 template <typename T>
-T Stack<T>::peek()
+T Stack<T>::peek() const
 {
     if (!isEmpty())
     {
@@ -121,25 +121,25 @@ T Stack<T>::peek()
 }
 
 template <typename T>
-int Stack<T>::size()
+int Stack<T>::size() const
 {
     return m_top + 1;
 }
 
 template <typename T>
-bool Stack<T>::isEmpty()
+bool Stack<T>::isEmpty() const
 {
     return (m_top == -1);
 }
 
 template <typename T>
-bool Stack<T>::isFull()
+bool Stack<T>::isFull() const
 {
     return (m_top == (m_capacity - 1));
 }
 
 template <typename T>
-int Stack<T>::getCapacity()
+int Stack<T>::getCapacity() const
 {
     return m_capacity;
 }

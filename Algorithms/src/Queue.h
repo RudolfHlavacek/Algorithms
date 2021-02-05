@@ -18,12 +18,12 @@ class Queue
 
         void enqueue(T x);
         void dequeue();
-        T peek();
+        T peek() const;
 
-        int size();
-        bool isEmpty();
-        bool isFull();
-        int getCapacity();
+        int size() const;
+        bool isEmpty() const;
+        bool isFull() const;
+        int getCapacity() const;
         bool copy(const Queue<T>& other);
 
     private:
@@ -122,7 +122,7 @@ void Queue<T>::dequeue()
 }
 
 template <typename T>
-T Queue<T>::peek()
+T Queue<T>::peek() const
 {
     if (isEmpty())
     {
@@ -133,25 +133,25 @@ T Queue<T>::peek()
 }
 
 template <typename T>
-int Queue<T>::size()
+int Queue<T>::size() const
 {
     return m_count;
 }
 
 template <typename T>
-bool Queue<T>::isEmpty()
+bool Queue<T>::isEmpty() const
 {
     return (m_count == 0);
 }
 
 template <typename T>
-bool Queue<T>::isFull()
+bool Queue<T>::isFull() const
 {
     return (m_count == m_capacity);
 }
 
 template <typename T>
-int Queue<T>::getCapacity()
+int Queue<T>::getCapacity() const
 {
     return m_capacity;
 }
