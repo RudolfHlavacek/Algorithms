@@ -103,7 +103,7 @@ namespace rh {
     template <typename T>
     void MinHeap<T>::resize(int new_size)
     {
-        if (new_size > m_size)
+        if (new_size >= m_size && new_size > 0)
         {
             T* temp_heap = new T[new_size];
             for (int i = 0; i < m_size; i++)
