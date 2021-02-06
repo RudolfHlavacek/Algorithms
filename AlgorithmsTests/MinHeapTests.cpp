@@ -142,7 +142,7 @@ namespace AlgorithmsTests
 		{
 			rh::MinHeap<int> minheap(5);
 
-			minheap.resize(1);
+			Assert::AreEqual(true, minheap.resize(1));
 			minheap.insert(42);
 
 			Assert::AreEqual(true, minheap.isFull());
@@ -152,7 +152,7 @@ namespace AlgorithmsTests
 		{
 			rh::MinHeap<int> minheap(5);
 
-			minheap.resize(0);
+			Assert::AreEqual(false, minheap.resize(0));
 			for (int i = 0; i < 5; i++)
 				minheap.insert(42);
 
@@ -163,7 +163,7 @@ namespace AlgorithmsTests
 		{
 			rh::MinHeap<int> minheap(5);
 
-			minheap.resize(-2);
+			Assert::AreEqual(false, minheap.resize(-2));
 			for (int i = 0; i < 5; i++)
 				minheap.insert(42);
 
@@ -174,17 +174,229 @@ namespace AlgorithmsTests
 		{
 			rh::MinHeap<int> minheap(5);
 
-			minheap.resize(0);
+			Assert::AreEqual(false, minheap.resize(0));
 			for (int i = 0; i < 5; i++)
 				minheap.insert(42);
 
 			Assert::AreEqual(true, minheap.isFull());
 
-			minheap.resize(6);
+			Assert::AreEqual(true, minheap.resize(6));
 			Assert::AreEqual(false, minheap.isFull());
 
 			minheap.insert(42);
 			Assert::AreEqual(true, minheap.isFull());
+		}
+
+		TEST_METHOD(resize_without_params)
+		{
+			rh::MinHeap<int> minheap(10);
+
+			minheap.insert(42);
+			minheap.insert(21);
+			minheap.insert(12);
+
+			Assert::AreEqual(true, minheap.resize());
+			Assert::AreEqual(3, minheap.size());
+			Assert::AreEqual(true, minheap.isFull());
+
+			Assert::AreEqual(12, minheap.extractMin());
+			Assert::AreEqual(21, minheap.extractMin());
+			Assert::AreEqual(42, minheap.extractMin());
+		}
+
+		TEST_METHOD(resize_without_params_empty_heap)
+		{
+			rh::MinHeap<int> minheap(10);
+
+			Assert::AreEqual(true, minheap.resize());
+			Assert::AreEqual(0, minheap.size());
+			Assert::AreEqual(false, minheap.isFull());
+
+			minheap.insert(42);
+			Assert::AreEqual(1, minheap.size());
+			Assert::AreEqual(true, minheap.isFull());
+		}
+
+		TEST_METHOD(resize_without_params_full_heap)
+		{
+			rh::MinHeap<int> minheap(6);
+
+			minheap.insert(2);
+			minheap.insert(-3);
+			minheap.insert(1);
+			minheap.insert(12);
+			minheap.insert(-21);
+			minheap.insert(-42);
+
+			Assert::AreEqual(false, minheap.resize());
+			Assert::AreEqual(6, minheap.size());
+			Assert::AreEqual(true, minheap.isFull());
+
+			minheap.insert(42);
+			Assert::AreEqual(7, minheap.size());
+			Assert::AreEqual(false, minheap.isFull());
+
+			Assert::AreEqual(-42, minheap.extractMin());
+			Assert::AreEqual(-21, minheap.extractMin());
+			Assert::AreEqual(-3, minheap.extractMin());
+			Assert::AreEqual(1, minheap.extractMin());
+			Assert::AreEqual(2, minheap.extractMin());
+			Assert::AreEqual(12, minheap.extractMin());
+			Assert::AreEqual(42, minheap.extractMin());
+		}
+
+		TEST_METHOD(clear)
+		{
+			rh::MinHeap<int> minheap(3);
+
+			minheap.insert(42);
+			minheap.insert(21);
+			minheap.insert(12);
+
+			Assert::AreEqual(3, minheap.size());
+
+			minheap.clear();
+			Assert::AreEqual(0, minheap.size());
+
+			minheap.insert(42);
+			minheap.insert(21);
+			minheap.insert(12);
+			Assert::AreEqual(3, minheap.size());
+			Assert::AreEqual(true, minheap.isFull());
+		}
+
+		TEST_METHOD(CopyCtor)
+		{
+			rh::MinHeap<int> mh(3);
+			mh.insert(42);
+			mh.insert(21);
+
+			rh::MinHeap<int> mh_copy(mh);
+			mh.clear();
+			for (int i = 0; i < 10; i++)
+				mh.insert(1);
+
+			Assert::AreEqual(10, mh.size());
+
+			Assert::AreEqual(2, mh_copy.size());
+			Assert::AreEqual(false, mh_copy.isFull());
+
+			mh_copy.insert(12);
+			Assert::AreEqual(3, mh_copy.size());
+			Assert::AreEqual(true, mh_copy.isFull());
+			Assert::AreEqual(12, mh_copy.extractMin());
+			Assert::AreEqual(21, mh_copy.extractMin());
+			Assert::AreEqual(42, mh_copy.extractMin());
+		}
+
+		TEST_METHOD(copy_without_resizing)
+		{
+			rh::MinHeap<int> mh_copy(3);
+			mh_copy.insert(42);
+			mh_copy.insert(21);
+
+			rh::MinHeap<int> mh(10);
+			mh.insert(3);
+			mh.insert(2);
+			mh.insert(1);
+
+			mh_copy.copy(mh);
+			
+			mh.clear();
+			for (int i = 0; i < 12; i++)
+				mh.insert(1);
+			Assert::AreEqual(12, mh.size());
+
+			Assert::AreEqual(3, mh_copy.size());
+			Assert::AreEqual(true, mh_copy.isFull());
+			Assert::AreEqual(1, mh_copy.extractMin());
+			Assert::AreEqual(2, mh_copy.extractMin());
+			Assert::AreEqual(3, mh_copy.extractMin());
+		}
+
+		TEST_METHOD(copy_with_resizing)
+		{
+			rh::MinHeap<int> mh_copy(3);
+			mh_copy.insert(42);
+			mh_copy.insert(21);
+
+			rh::MinHeap<int> mh(10);
+			mh.insert(3);
+			mh.insert(2);
+			mh.insert(1);
+			mh.insert(12);
+			mh.insert(23);
+
+			mh_copy.copy(mh);
+			
+			mh.clear();
+			for (int i = 0; i < 12; i++)
+				mh.insert(1);
+			Assert::AreEqual(12, mh.size());
+
+			Assert::AreEqual(5, mh_copy.size());
+			Assert::AreEqual(true, mh_copy.isFull());
+			Assert::AreEqual(1, mh_copy.extractMin());
+			Assert::AreEqual(2, mh_copy.extractMin());
+			Assert::AreEqual(3, mh_copy.extractMin());
+			Assert::AreEqual(12, mh_copy.extractMin());
+			Assert::AreEqual(23, mh_copy.extractMin());
+		}
+
+		TEST_METHOD(operatorEqual_without_resizing)
+		{
+			rh::MinHeap<int> mh_copy(3);
+			mh_copy.insert(42);
+			mh_copy.insert(-21);
+
+			rh::MinHeap<int> mh(10);
+			mh.insert(3);
+			mh.insert(-2);
+
+			mh_copy = mh;
+			
+			mh.clear();
+			for (int i = 0; i < 12; i++)
+				mh.insert(1);
+			Assert::AreEqual(12, mh.size());
+
+			Assert::AreEqual(2, mh_copy.size());
+			Assert::AreEqual(false, mh_copy.isFull());
+
+			mh_copy.insert(1);
+			Assert::AreEqual(true, mh_copy.isFull());
+			Assert::AreEqual(-2, mh_copy.extractMin());
+			Assert::AreEqual(1, mh_copy.extractMin());
+			Assert::AreEqual(3, mh_copy.extractMin());
+		}
+
+		TEST_METHOD(operatorEqual_with_resizing)
+		{
+			rh::MinHeap<int> mh_copy(3);
+			mh_copy.insert(-42);
+			mh_copy.insert(21);
+
+			rh::MinHeap<int> mh(10);
+			mh.insert(-3);
+			mh.insert(2);
+			mh.insert(-1);
+			mh.insert(12);
+			mh.insert(-23);
+
+			mh_copy = mh;
+
+			mh.clear();
+			for (int i = 0; i < 12; i++)
+				mh.insert(1);
+			Assert::AreEqual(12, mh.size());
+
+			Assert::AreEqual(5, mh_copy.size());
+			Assert::AreEqual(true, mh_copy.isFull());
+			Assert::AreEqual(-23, mh_copy.extractMin());
+			Assert::AreEqual(-3, mh_copy.extractMin());
+			Assert::AreEqual(-1, mh_copy.extractMin());
+			Assert::AreEqual(2, mh_copy.extractMin());
+			Assert::AreEqual(12, mh_copy.extractMin());
 		}
 
 	};

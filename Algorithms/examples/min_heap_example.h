@@ -41,7 +41,7 @@ int min_heap_example()
     else
         std::cout << "Heap is not full." << std::endl;
 
-    // resize() shall resize the heap if new capacity is at least same as the number of stored elements.
+    // resize(X) shall resize the heap if new capacity (X) is at least as big as the number of stored elements.
     std::cout << "---------------------------" << std::endl;
     std::cout << "Number of elems in heap: " << mh.size() << std::endl;
     std::cout << "Heap is full: " << mh.isFull() << std::endl;
@@ -59,6 +59,56 @@ int min_heap_example()
     mh.insert(2);
     std::cout << "Heap is full: " << mh.isFull() << std::endl;
 
+    
+    std::cout << "---------------------------" << std::endl;
+    // clear() clears the heap.
+    mh.clear();
+
+    
+    mh.insert(42);
+    mh.insert(21);
+
+    
+    if (mh.isFull())
+        std::cout << "Heap is full." << std::endl;
+    else
+        std::cout << "Heap is not full." << std::endl;
+
+    // resize() without params shall adjust heap according to number of stored elements. If there is nothing then it shall resized to 1.
+    // If heap is full then there shall be no resizing.
+    // resize() return true is resizing took a place. If not it returns false.
+    for (int i = 0; i < 5; i++)
+    {
+        if (mh.resize())
+            std::cout << "Resized..." << "new size is: " << mh.size() << std::endl;
+        else
+            std::cout << "Not resized..." << "size is: " << mh.size() << std::endl;
+    }
+
+    if (mh.isFull())
+        std::cout << "Heap is full." << std::endl;
+    else
+        std::cout << "Heap is not full." << std::endl;
+
+    mh.insert(5);
+    mh.insert(21);
+    mh.insert(-42);
+    mh.insert(42);
+    mh.insert(-2);
+
+    // Copy constructor can be used to create copy of the heap.
+    // It creates exact copy.
+    rh::MinHeap<int> mh_2(mh);
+
+
+    // Copy can be created also by calling copy(heap_which_will_be_copied).
+    // Heap mh will be copied to the mh_3.
+    // If there is not enough room then mh_3 will be resized.
+    rh::MinHeap<int> mh_3(1);
+    mh_3.copy(mh);
+
+    // Same effect (mh_3.copy(mh);) can be achieved by using = operator. See below.
+    mh_3 = mh;
 
 
     return 1;

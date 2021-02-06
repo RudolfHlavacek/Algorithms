@@ -22,6 +22,7 @@ namespace rh {
 
     public:
         MinHeap(int capacity);
+        MinHeap(const MinHeap& other);
         virtual ~MinHeap();
 
         void insert(T elem);
@@ -31,7 +32,12 @@ namespace rh {
 
         int size() const;
         bool isFull() const;
-        void resize(int new_size);
+        bool resize(int new_size);
+        bool resize();
+        void clear();
+
+        void copy(const MinHeap<T>& other);
+        void operator=(const MinHeap<T>& other);
     };
 
 
@@ -45,6 +51,15 @@ namespace rh {
         if (m_capacity < 1)
             m_capacity = 1;
         m_heap = new T[m_capacity];
+    }
+
+    template <typename T>
+    MinHeap<T>::MinHeap(const MinHeap<T>& other)
+        : m_size(other.m_size), m_capacity(other.m_capacity)
+    {
+        m_heap = new T[m_capacity];
+        for (int i = 0; i < m_size; i++)
+            m_heap[i] = other.m_heap[i];
     }
 
     template <typename T>
@@ -101,7 +116,7 @@ namespace rh {
     }
 
     template <typename T>
-    void MinHeap<T>::resize(int new_size)
+    bool MinHeap<T>::resize(int new_size)
     {
         if (new_size >= m_size && new_size > 0)
         {
@@ -113,7 +128,48 @@ namespace rh {
             delete[] m_heap;
             m_heap = temp_heap;
             m_capacity = new_size;
+            return true;
         }
+        else
+            return false;
+    }
+
+    template <typename T>
+    bool MinHeap<T>::resize()
+    {
+        if (m_size == 0)
+            return resize(1);
+        else if (m_capacity > m_size)
+            return resize(m_size);
+        else
+            return false;
+    }
+
+    template <typename T>
+    void MinHeap<T>::clear()
+    {
+        m_size = 0;
+    }
+
+    template <typename T>
+    void MinHeap<T>::copy(const MinHeap<T>& other)
+    {
+        if (other.m_size > m_capacity)
+        {
+            m_capacity = other.m_size;
+            resize(other.m_size);
+        }
+
+        m_size = other.m_size;
+
+        for (int i = 0; i < m_size; i++)
+            m_heap[i] = other.m_heap[i];
+    }
+
+    template <typename T>
+    void MinHeap<T>::operator=(const MinHeap<T>& other)
+    {
+        copy(other);
     }
 
 /******************************************************************************/
