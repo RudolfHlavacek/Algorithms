@@ -164,6 +164,7 @@
     <ClInclude Include="examples\stack_example.h" />
     <ClInclude Include="examples\timer_example.h" />
     <ClInclude Include="src\BinarySearch.h" />
+    <ClInclude Include="src\MaxHeap.h" />
     <ClInclude Include="src\MinHeap.h" />
     <ClInclude Include="src\Queue.h" />
     <ClInclude Include="src\Stack.h" />

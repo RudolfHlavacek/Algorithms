@@ -50,5 +50,8 @@
     <ClInclude Include="examples\min_heap_example.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\MaxHeap.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

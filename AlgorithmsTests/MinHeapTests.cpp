@@ -2,6 +2,7 @@
 #include "CppUnitTest.h"
 
 #include "..\Algorithms\src\MinHeap.h"
+#include "MinMaxHeap_Test_Utills.h"
 
 #include <vector>
 #include <random>
@@ -14,82 +15,236 @@ namespace AlgorithmsTests
 	{
 	public:
 
-		TEST_METHOD(Ctor)
+		TEST_METHOD(_Ctor)
 		{
-			rh::MinHeap<int> minheap(3);
+			const int max_capacity = 3;
+			rh::MinHeap<int> minheap(max_capacity);
 			
-			Assert::AreEqual(0, minheap.size());
-			Assert::AreEqual(false, minheap.isFull());
-
-			minheap.insert(5);
-			minheap.insert(3);
-			minheap.insert(4);
-			Assert::AreEqual(3, minheap.size());
-			Assert::AreEqual(true, minheap.isFull());
+			Assert::AreEqual(0, rhTest::get_m_size(minheap));
+			Assert::AreEqual(max_capacity, rhTest::get_m_capacity(minheap));
+			
+			const int * const ptr_to_heap = rhTest::get_ptr_to_heap(minheap);
+			int data;
+			for (int i = 0; i < max_capacity; i++)
+			{
+				data = *(ptr_to_heap + i);
+				Assert::AreEqual((int)0xCDCDCDCD, data);
+			}
+			data = *(ptr_to_heap + max_capacity);
+			Assert::AreEqual((int)0xFDFDFDFD, data);
 		}
 
-		TEST_METHOD(Ctor_negative_number)
+		TEST_METHOD(_Ctor_negative_number)
 		{
-			rh::MinHeap<int> minheap(-2);
+			rh::MinHeap<int> minheap(-1);
 
-			Assert::AreEqual(0, minheap.size());
-			Assert::AreEqual(false, minheap.isFull());
+			Assert::AreEqual(0, rhTest::get_m_size(minheap));
+			Assert::AreEqual(1, rhTest::get_m_capacity(minheap));
 
-			minheap.insert(5);
-			Assert::AreEqual(1, minheap.size());
-			Assert::AreEqual(true, minheap.isFull());
+			const int* const ptr_to_heap = rhTest::get_ptr_to_heap(minheap);
+			int data = *(ptr_to_heap);
+			Assert::AreEqual((int)0xCDCDCDCD, data);
+			
+			data = *(ptr_to_heap + 1);
+			Assert::AreEqual((int)0xFDFDFDFD, data);
 		}
 
-		TEST_METHOD(Ctor_zero_number)
+		TEST_METHOD(_Ctor_without_params)
+		{
+			rh::MinHeap<int> minheap;
+
+			Assert::AreEqual(0, rhTest::get_m_size(minheap));
+			Assert::AreEqual(1, rhTest::get_m_capacity(minheap));
+
+			const int* const ptr_to_heap = rhTest::get_ptr_to_heap(minheap);
+			int data = *(ptr_to_heap);
+			Assert::AreEqual((int)0xCDCDCDCD, data);
+
+			data = *(ptr_to_heap + 1);
+			Assert::AreEqual((int)0xFDFDFDFD, data);
+		}
+
+		TEST_METHOD(_Ctor_zero_number)
 		{
 			rh::MinHeap<int> minheap(0);
 
-			Assert::AreEqual(0, minheap.size());
-			Assert::AreEqual(false, minheap.isFull());
+			Assert::AreEqual(0, rhTest::get_m_size(minheap));
+			Assert::AreEqual(1, rhTest::get_m_capacity(minheap));
 
-			minheap.insert(5);
-			Assert::AreEqual(1, minheap.size());
-			Assert::AreEqual(true, minheap.isFull());
+			const int* const ptr_to_heap = rhTest::get_ptr_to_heap(minheap);
+			int data = *(ptr_to_heap);
+			Assert::AreEqual((int)0xCDCDCDCD, data);
+
+			data = *(ptr_to_heap + 1);
+			Assert::AreEqual((int)0xFDFDFDFD, data);
 		}
 
-		// TODO getMIN bez insertovaneho prvku. deletemin a extract min to same
-
-		TEST_METHOD(peekMin_deleteMin)
+		TEST_METHOD(_Destructor)
 		{
-			rh::MinHeap<int> minheap(14);
-			std::vector<int> test_vec = {50, 25, 75, 100, 99, 101, -1, -2, -3, -1, 1, 0, 2, 3};
-			const std::vector<int> res_vec = {-3, -2, -1, -1, 0, 1, 2, 3, 25, 50, 75, 99, 100, 101};
-
-			for (int i = 0; i < test_vec.size(); i++)
-				minheap.insert(test_vec[i]);
-
-			for (int res_num : res_vec)
+			const int* ptr_to_heap;
 			{
-				Assert::AreEqual(res_num, minheap.peekMin());
-				minheap.deleteMin();
+				rh::MinHeap<int> minheap(5);
+				minheap.insert(9);
+				minheap.insert(10);
+				minheap.insert(11);
+				ptr_to_heap = rhTest::get_ptr_to_heap(minheap);
 			}
-			Assert::AreEqual(0, minheap.size());
+
+			for (int i = 0; i < 6; i++)
+			{
+				int data = *(ptr_to_heap + i);
+				Assert::AreEqual((int)0xDDDDDDDD, data);
+			}
 		}
 
-		TEST_METHOD(extractMin)
+		//// TODO getMIN bez insertovaneho prvku. deleteRoot a extract min to same
+		TEST_METHOD(insert)
 		{
+			const std::vector<int> test_vec = { 50, 25, 75, 100, 99, 101, -1, -2, -3, -1, 1, 0, 2, 3 };
+			const std::vector<int> arranged_vec = { -3, -2, 0, -1, -1, 2, 3, 100, 50, 99, 1, 101, 25, 75 };
 			rh::MinHeap<int> minheap(14);
-			std::vector<int> test_vec = { 50, 25, 75, 100, 99, 101, -1, -2, -3, -1, 1, 0, 2, 3 };
+
+			for (int num : test_vec)
+				minheap.insert(num);
+
+			const int* const ptr_to_heap = rhTest::get_ptr_to_heap(minheap);
+			for (int i = 0; i < arranged_vec.size(); i++)
+			{
+				int data = *(ptr_to_heap + i);
+				Assert::AreEqual(arranged_vec[i], data);
+			}
+		}
+
+		TEST_METHOD(peek)
+		{
+			const std::vector<int> test_vec = { 50, 25, 75, 100, 99, 101, -1, -2, -3, -1, 1, 0, 2, 3 };
+			const std::vector<int> arranged_vec = { -3, -2, 0, -1, -1, 2, 3, 100, 50, 99, 1, 101, 25, 75 };
+			rh::MinHeap<int> minheap(15);
+
+			for (int num : test_vec)
+				minheap.insert(num);
+
+			Assert::AreEqual(14, rhTest::get_m_size(minheap));
+			Assert::AreEqual(15, rhTest::get_m_capacity(minheap));
+
+			for (int i = 0; i < 10; i++)
+			{
+				Assert::AreEqual(-3, minheap.peek());
+				const int* const ptr_to_heap = rhTest::get_ptr_to_heap(minheap);
+				for (int k = 0; k < arranged_vec.size(); k++)
+				{
+					int data = *(ptr_to_heap + k);
+					Assert::AreEqual(arranged_vec[k], data);
+				}
+			}
+
+		}
+
+		TEST_METHOD(deleteRoot)
+		{
+			const std::vector<int> test_vec = { 50, 25, 75, 100, 99, 101, -1, -2, -3, -1, 1, 0, 2, 3 };
+			const std::vector<std::vector<int>> arranged_vectors = { {-2, -1, 0, 50, -1, 2, 3, 100, 75, 99, 1, 101, 25},
+																	 {-1, -1, 0, 50, 1, 2, 3, 100, 75, 99, 25, 101},
+																	 {-1, 1, 0, 50, 25, 2, 3, 100, 75, 99, 101},
+																	 {0, 1, 2, 50, 25, 101, 3, 100, 75, 99},
+																	 {1, 25, 2, 50, 99, 101, 3, 100, 75},
+																	 {2, 25, 3, 50, 99, 101, 75, 100},
+																	 {3, 25, 75, 50, 99, 101, 100},
+																	 {25, 50, 75, 100, 99, 101},
+																	 {50, 99, 75, 100, 101},
+																	 {75, 99, 101, 100},
+																	 {99, 100, 101},
+																	 {100, 101},
+																	 {101} };
+			rh::MinHeap<int> minheap(15);
+
+			for (int num : test_vec)
+				minheap.insert(num);
+
+			const int* const ptr_to_heap = rhTest::get_ptr_to_heap(minheap);
+			for (std::vector<int> vec : arranged_vectors)
+			{
+				minheap.deleteRoot();
+				Assert::AreEqual((int)vec.size(), rhTest::get_m_size(minheap));
+				Assert::AreEqual(15, rhTest::get_m_capacity(minheap));
+				for (int i = 0; i < vec.size(); i++)
+				{
+					int data = *(ptr_to_heap + i);
+					Assert::AreEqual(vec[i], data);
+				}
+			}
+		}
+		TEST_METHOD(extractRoot)
+		{
+			const std::vector<int> test_vec = { 50, 25, 75, 100, 99, 101, -1, -2, -3, -1, 1, 0, 2, 3 };
 			const std::vector<int> res_vec = { -3, -2, -1, -1, 0, 1, 2, 3, 25, 50, 75, 99, 100, 101 };
+			const std::vector<std::vector<int>> arranged_vectors = { {-2, -1, 0, 50, -1, 2, 3, 100, 75, 99, 1, 101, 25},
+																	 {-1, -1, 0, 50, 1, 2, 3, 100, 75, 99, 25, 101},
+																	 {-1, 1, 0, 50, 25, 2, 3, 100, 75, 99, 101},
+																	 {0, 1, 2, 50, 25, 101, 3, 100, 75, 99},
+																	 {1, 25, 2, 50, 99, 101, 3, 100, 75},
+																	 {2, 25, 3, 50, 99, 101, 75, 100},
+																	 {3, 25, 75, 50, 99, 101, 100},
+																	 {25, 50, 75, 100, 99, 101},
+																	 {50, 99, 75, 100, 101},
+																	 {75, 99, 101, 100},
+																	 {99, 100, 101},
+																	 {100, 101},
+																	 {101} };
+			rh::MinHeap<int> minheap(15);
 
-			for (int i = 0; i < test_vec.size(); i++)
-				minheap.insert(test_vec[i]);
+			for (int num : test_vec)
+				minheap.insert(num);
 
-			for (int res_num : res_vec)
+			const int* const ptr_to_heap = rhTest::get_ptr_to_heap(minheap);
+			int i = 0;
+			for (std::vector<int> vec : arranged_vectors)
 			{
-				Assert::AreEqual(res_num, minheap.extractMin());
+				Assert::AreEqual(res_vec[i++], minheap.extractRoot());
+				Assert::AreEqual((int)vec.size(), rhTest::get_m_size(minheap));
+				Assert::AreEqual(15, rhTest::get_m_capacity(minheap));
+				for (int i = 0; i < vec.size(); i++)
+				{
+					int data = *(ptr_to_heap + i);
+					Assert::AreEqual(vec[i], data);
+				}
 			}
-			Assert::AreEqual(0, minheap.size());
 		}
 
-		TEST_METHOD(extractMin_10000_runs)
+		TEST_METHOD(no_reallocation)
 		{
-			const int max_runs = 10000;
+			rh::MinHeap<int> minheap(10);
+			const int* const ptr_to_heap_after_instantiation = rhTest::get_ptr_to_heap(minheap);
+
+			minheap.insert(42);
+			minheap.insert(21);
+			const int* ptr_to_heap = rhTest::get_ptr_to_heap(minheap);
+			Assert::AreEqual(ptr_to_heap_after_instantiation, ptr_to_heap);
+
+			minheap.peek();
+			ptr_to_heap = rhTest::get_ptr_to_heap(minheap);
+			Assert::AreEqual(ptr_to_heap_after_instantiation, ptr_to_heap);
+
+			minheap.deleteRoot();
+			ptr_to_heap = rhTest::get_ptr_to_heap(minheap);
+			Assert::AreEqual(ptr_to_heap_after_instantiation, ptr_to_heap);
+
+			minheap.extractRoot();
+			ptr_to_heap = rhTest::get_ptr_to_heap(minheap);
+			Assert::AreEqual(ptr_to_heap_after_instantiation, ptr_to_heap);
+
+			minheap.size();
+			ptr_to_heap = rhTest::get_ptr_to_heap(minheap);
+			Assert::AreEqual(ptr_to_heap_after_instantiation, ptr_to_heap);
+
+			minheap.clear();
+			ptr_to_heap = rhTest::get_ptr_to_heap(minheap);
+			Assert::AreEqual(ptr_to_heap_after_instantiation, ptr_to_heap);
+		}
+
+		TEST_METHOD(extractRoot_1000_runs)
+		{
+			const int max_runs = 1000;
 
 			rh::MinHeap<int> minheap(14);
 			std::vector<int> test_vec = { 50, 25, 75, 100, 99, 101, -1, -2, -3, -1, 1, 0, 2, 3 };
@@ -105,7 +260,7 @@ namespace AlgorithmsTests
 					minheap.insert(num);
 
 				for (int res : res_vec)
-					Assert::AreEqual(res, minheap.extractMin());
+					Assert::AreEqual(res, minheap.extractRoot());
 
 				Assert::AreEqual(0, minheap.size());
 			}
@@ -113,290 +268,391 @@ namespace AlgorithmsTests
 
 		TEST_METHOD(size)
 		{
-			rh::MinHeap<int> minheap(10);
+			const int max_capacity = 10;
+			rh::MinHeap<int> minheap(max_capacity);
 
-			for (int i = 0; i < 10; i++)
+			for (int i = 0; i < max_capacity; i++)
 			{
 				minheap.insert(42);
 				Assert::AreEqual(i + 1, minheap.size());
 			}
 		}
+		// resize(int new_size) OK
+		// resize()             OK
+		// clear()              OK
+		// copy()
+		// operator=()
+		// check if heap is deallocate
 
-		TEST_METHOD(isFull)
+		TEST_METHOD(resize_no_action)
 		{
-			rh::MinHeap<int> minheap(1);
-			int curr_capacity = 1;
-
-			for (int i = 0; i < 10; i++)
-			{
-				int curr_size = minheap.size();
-				for (int j = 0; j < curr_capacity - curr_size; j++)
-					minheap.insert(42);
-
-				Assert::AreEqual(true, minheap.isFull());
-				curr_capacity *= 2;
-			}
-		}
-
-		TEST_METHOD(resize_smaller)
-		{
+			// case 1: new_capacity is 0
+			// case 2: new_capacity is negative number
+			// case 3: new_capacity is lesser than number of elements
+			// case 4: new_capacity is equal to current capacity
 			rh::MinHeap<int> minheap(5);
+			minheap.insert(10);
+			minheap.insert(11);
+			const int* const ptr_to_init_heap = rhTest::get_ptr_to_heap(minheap);
 
-			Assert::AreEqual(true, minheap.resize(1));
-			minheap.insert(42);
+			// case 1:
+			Assert::IsFalse(minheap.resize(0));
+			
+			Assert::AreEqual(ptr_to_init_heap, (const int* const)rhTest::get_ptr_to_heap(minheap));
+			Assert::AreEqual(2, rhTest::get_m_size(minheap));
+			Assert::AreEqual(5, rhTest::get_m_capacity(minheap));
 
-			Assert::AreEqual(true, minheap.isFull());
-		}
+			// case 2:
+			Assert::IsFalse(minheap.resize(-1));
 
-		TEST_METHOD(resize_smaller_than_one)
-		{
-			rh::MinHeap<int> minheap(5);
+			Assert::AreEqual(ptr_to_init_heap, (const int* const)rhTest::get_ptr_to_heap(minheap));
+			Assert::AreEqual(2, rhTest::get_m_size(minheap));
+			Assert::AreEqual(5, rhTest::get_m_capacity(minheap));
 
-			Assert::AreEqual(false, minheap.resize(0));
-			for (int i = 0; i < 5; i++)
-				minheap.insert(42);
+			// case 3:
+			Assert::IsFalse(minheap.resize(1));
 
-			Assert::AreEqual(true, minheap.isFull());
-		}
+			Assert::AreEqual(ptr_to_init_heap, (const int* const)rhTest::get_ptr_to_heap(minheap));
+			Assert::AreEqual(2, rhTest::get_m_size(minheap));
+			Assert::AreEqual(5, rhTest::get_m_capacity(minheap));
 
-		TEST_METHOD(resize_negative_number)
-		{
-			rh::MinHeap<int> minheap(5);
+			// case 4:
+			Assert::IsFalse(minheap.resize(5));
 
-			Assert::AreEqual(false, minheap.resize(-2));
-			for (int i = 0; i < 5; i++)
-				minheap.insert(42);
-
-			Assert::AreEqual(true, minheap.isFull());
+			Assert::AreEqual(ptr_to_init_heap, (const int* const)rhTest::get_ptr_to_heap(minheap));
+			Assert::AreEqual(2, rhTest::get_m_size(minheap));
+			Assert::AreEqual(5, rhTest::get_m_capacity(minheap));
 		}
 
 		TEST_METHOD(resize)
 		{
-			rh::MinHeap<int> minheap(5);
+			// case 1: new_capacity is different than old capacity AND new_capacity is equal to number of elements
+			// case 2: new_capacity is different than old capacity AND new_capacity is greater than number of element
+			// case 3: new_capacity is greater than old capacity
+			
+			// case 1:
+			{
+				rh::MinHeap<int> minheap(5);
+				minheap.insert(10);
+				minheap.insert(11);
+				const int* const ptr_to_init_heap_alloc = rhTest::get_ptr_to_heap(minheap);
 
-			Assert::AreEqual(false, minheap.resize(0));
-			for (int i = 0; i < 5; i++)
-				minheap.insert(42);
 
-			Assert::AreEqual(true, minheap.isFull());
+				Assert::IsTrue(minheap.resize(2));
 
-			Assert::AreEqual(true, minheap.resize(6));
-			Assert::AreEqual(false, minheap.isFull());
 
-			minheap.insert(42);
-			Assert::AreEqual(true, minheap.isFull());
+				Assert::AreNotEqual(ptr_to_init_heap_alloc, (const int* const)rhTest::get_ptr_to_heap(minheap));
+
+				Assert::AreEqual(2, rhTest::get_m_size(minheap));
+				Assert::AreEqual(2, rhTest::get_m_capacity(minheap));
+
+				Assert::AreEqual(10, *(rhTest::get_ptr_to_heap(minheap) + 0));
+				Assert::AreEqual(11, *(rhTest::get_ptr_to_heap(minheap) + 1));
+				for (int i = 0; i < 6; i++) // Check for deallocation of old heap.
+				{
+					int data = *(ptr_to_init_heap_alloc + i);
+					Assert::AreEqual((int)0xDDDDDDDD, data);
+				}
+			}
+
+			// case 2:
+			{
+				rh::MinHeap<int> minheap(5);
+				minheap.insert(10);
+				minheap.insert(11);
+				const int* const ptr_to_init_heap_alloc = rhTest::get_ptr_to_heap(minheap);
+
+
+				Assert::IsTrue(minheap.resize(3));
+
+
+				Assert::AreNotEqual(ptr_to_init_heap_alloc, (const int* const)rhTest::get_ptr_to_heap(minheap));
+
+				Assert::AreEqual(2, rhTest::get_m_size(minheap));
+				Assert::AreEqual(3, rhTest::get_m_capacity(minheap));
+
+				Assert::AreEqual(10, *(rhTest::get_ptr_to_heap(minheap) + 0));
+				Assert::AreEqual(11, *(rhTest::get_ptr_to_heap(minheap) + 1));
+				for (int i = 0; i < 6; i++) // Check for deallocation of old heap.
+				{
+					int data = *(ptr_to_init_heap_alloc + i);
+					Assert::AreEqual((int)0xDDDDDDDD, data);
+				}
+			}
+
+			// case 3:
+			{
+				rh::MinHeap<int> minheap(5);
+				minheap.insert(10);
+				minheap.insert(11);
+				const int* const ptr_to_init_heap_alloc = rhTest::get_ptr_to_heap(minheap);
+
+
+				Assert::IsTrue(minheap.resize(7));
+
+
+				Assert::AreNotEqual(ptr_to_init_heap_alloc, (const int* const)rhTest::get_ptr_to_heap(minheap));
+
+				Assert::AreEqual(2, rhTest::get_m_size(minheap));
+				Assert::AreEqual(7, rhTest::get_m_capacity(minheap));
+
+				Assert::AreEqual(10, *(rhTest::get_ptr_to_heap(minheap) + 0));
+				Assert::AreEqual(11, *(rhTest::get_ptr_to_heap(minheap) + 1));
+				for (int i = 0; i < 6; i++) // Check for deallocation of old heap.
+				{
+					int data = *(ptr_to_init_heap_alloc + i);
+					Assert::AreEqual((int)0xDDDDDDDD, data);
+				}
+			}
 		}
 
 		TEST_METHOD(resize_without_params)
 		{
-			rh::MinHeap<int> minheap(10);
+			// case 1: m_size < m_capacity    resize
+			// case 2: m_size == m_capacity   NO resize
+			// case 3: m_size == 0;           resize to capacity of 1
+			// case 4: m_size < 0;            Shall not happend.
 
-			minheap.insert(42);
-			minheap.insert(21);
-			minheap.insert(12);
+			// case 1:
+			{
+				rh::MinHeap<int> minheap(5);
+				minheap.insert(9);
+				minheap.insert(10);
+				const int* const ptr_to_init_heap_alloc = rhTest::get_ptr_to_heap(minheap);
 
-			Assert::AreEqual(true, minheap.resize());
-			Assert::AreEqual(3, minheap.size());
-			Assert::AreEqual(true, minheap.isFull());
 
-			Assert::AreEqual(12, minheap.extractMin());
-			Assert::AreEqual(21, minheap.extractMin());
-			Assert::AreEqual(42, minheap.extractMin());
-		}
+				Assert::IsTrue(minheap.resize());
 
-		TEST_METHOD(resize_without_params_empty_heap)
-		{
-			rh::MinHeap<int> minheap(10);
 
-			Assert::AreEqual(true, minheap.resize());
-			Assert::AreEqual(0, minheap.size());
-			Assert::AreEqual(false, minheap.isFull());
+				Assert::AreNotEqual(ptr_to_init_heap_alloc, (const int* const)rhTest::get_ptr_to_heap(minheap));
 
-			minheap.insert(42);
-			Assert::AreEqual(1, minheap.size());
-			Assert::AreEqual(true, minheap.isFull());
-		}
+				Assert::AreEqual(2, rhTest::get_m_size(minheap));
+				Assert::AreEqual(2, rhTest::get_m_capacity(minheap));
 
-		TEST_METHOD(resize_without_params_full_heap)
-		{
-			rh::MinHeap<int> minheap(6);
+				Assert::AreEqual(9, *(rhTest::get_ptr_to_heap(minheap) + 0));
+				Assert::AreEqual(10, *(rhTest::get_ptr_to_heap(minheap) + 1));
+				for (int i = 0; i < 6; i++) // Check for deallocation of old heap.
+				{
+					int data = *(ptr_to_init_heap_alloc + i);
+					Assert::AreEqual((int)0xDDDDDDDD, data);
+				}
+			}
 
-			minheap.insert(2);
-			minheap.insert(-3);
-			minheap.insert(1);
-			minheap.insert(12);
-			minheap.insert(-21);
-			minheap.insert(-42);
+			// case 2:
+			{
+				rh::MinHeap<int> minheap(3);
+				minheap.insert(9);
+				minheap.insert(10);
+				minheap.insert(11);
+				const int* const ptr_to_init_heap_alloc = rhTest::get_ptr_to_heap(minheap);
 
-			Assert::AreEqual(false, minheap.resize());
-			Assert::AreEqual(6, minheap.size());
-			Assert::AreEqual(true, minheap.isFull());
 
-			minheap.insert(42);
-			Assert::AreEqual(7, minheap.size());
-			Assert::AreEqual(false, minheap.isFull());
+				Assert::IsFalse(minheap.resize());
 
-			Assert::AreEqual(-42, minheap.extractMin());
-			Assert::AreEqual(-21, minheap.extractMin());
-			Assert::AreEqual(-3, minheap.extractMin());
-			Assert::AreEqual(1, minheap.extractMin());
-			Assert::AreEqual(2, minheap.extractMin());
-			Assert::AreEqual(12, minheap.extractMin());
-			Assert::AreEqual(42, minheap.extractMin());
+
+				Assert::AreEqual(ptr_to_init_heap_alloc, (const int* const)rhTest::get_ptr_to_heap(minheap));
+
+				Assert::AreEqual(3, rhTest::get_m_size(minheap));
+				Assert::AreEqual(3, rhTest::get_m_capacity(minheap));
+
+				Assert::AreEqual(9, *(rhTest::get_ptr_to_heap(minheap) + 0));
+				Assert::AreEqual(10, *(rhTest::get_ptr_to_heap(minheap) + 1));
+				Assert::AreEqual(11, *(rhTest::get_ptr_to_heap(minheap) + 2));
+			}
+
+			// case 3:
+			{
+				rh::MinHeap<int> minheap(5);
+				const int* const ptr_to_init_heap_alloc = rhTest::get_ptr_to_heap(minheap);
+
+
+				Assert::IsTrue(minheap.resize());
+
+
+				Assert::AreNotEqual(ptr_to_init_heap_alloc, (const int* const)rhTest::get_ptr_to_heap(minheap));
+
+				Assert::AreEqual(0, rhTest::get_m_size(minheap));
+				Assert::AreEqual(1, rhTest::get_m_capacity(minheap));
+
+				for (int i = 0; i < 6; i++) // Check for deallocation of old heap.
+				{
+					int data = *(ptr_to_init_heap_alloc + i);
+					Assert::AreEqual((int)0xDDDDDDDD, data);
+				}
+			}
 		}
 
 		TEST_METHOD(clear)
 		{
 			rh::MinHeap<int> minheap(3);
+			const int* const ptr_to_init_heap_alloc = rhTest::get_ptr_to_heap(minheap);
 
 			minheap.insert(42);
 			minheap.insert(21);
 			minheap.insert(12);
-
-			Assert::AreEqual(3, minheap.size());
 
 			minheap.clear();
-			Assert::AreEqual(0, minheap.size());
 
-			minheap.insert(42);
-			minheap.insert(21);
-			minheap.insert(12);
-			Assert::AreEqual(3, minheap.size());
-			Assert::AreEqual(true, minheap.isFull());
+			Assert::AreEqual(0, rhTest::get_m_size(minheap));
+			Assert::AreEqual(3, rhTest::get_m_capacity(minheap));
+			Assert::AreEqual(ptr_to_init_heap_alloc, (const int* const)rhTest::get_ptr_to_heap(minheap));
 		}
 
-		TEST_METHOD(CopyCtor)
+		TEST_METHOD(_CopyCtor)
 		{
-			rh::MinHeap<int> mh(3);
-			mh.insert(42);
-			mh.insert(21);
+			rh::MinHeap<int> mh_ori(15);
+			const std::vector<int> test_vec = { 50, 25, 75, 100, 99, 101, -1, -2, -3, -1, 1, 0, 2, 3 };
+			const std::vector<int> arranged_vec = {-3, -2, 0, -1, -1, 2, 3, 100, 50, 99, 1, 101, 25, 75 };
+			for (int num : test_vec)
+				mh_ori.insert(num);
 
-			rh::MinHeap<int> mh_copy(mh);
-			mh.clear();
-			for (int i = 0; i < 10; i++)
-				mh.insert(1);
 
-			Assert::AreEqual(10, mh.size());
+			rh::MinHeap<int> minheap(mh_ori);
+			mh_ori.clear();
+			for (int i = 0; i < 20; i++)
+				mh_ori.insert(42);
+			Assert::AreEqual(42, mh_ori.peek());
 
-			Assert::AreEqual(2, mh_copy.size());
-			Assert::AreEqual(false, mh_copy.isFull());
 
-			mh_copy.insert(12);
-			Assert::AreEqual(3, mh_copy.size());
-			Assert::AreEqual(true, mh_copy.isFull());
-			Assert::AreEqual(12, mh_copy.extractMin());
-			Assert::AreEqual(21, mh_copy.extractMin());
-			Assert::AreEqual(42, mh_copy.extractMin());
+			Assert::AreEqual(14, rhTest::get_m_size(minheap));
+			Assert::AreEqual(15, rhTest::get_m_capacity(minheap));
+			const int* const ptr_to_heap_in_minheap = rhTest::get_ptr_to_heap(minheap);
+			int data;
+			for (int i = 0; i < arranged_vec.size(); i++)
+			{
+				data = *(ptr_to_heap_in_minheap + i);
+				Assert::AreEqual(arranged_vec[i], data);
+			}
+			data = *(ptr_to_heap_in_minheap + 14);
+			Assert::AreEqual((int)0xCDCDCDCD, data);
+			data = *(ptr_to_heap_in_minheap + 15);
+			Assert::AreEqual((int)0xFDFDFDFD, data);
 		}
 
 		TEST_METHOD(copy_without_resizing)
 		{
-			rh::MinHeap<int> mh_copy(3);
-			mh_copy.insert(42);
-			mh_copy.insert(21);
+			rh::MinHeap<int> mh_ori(15);
+			rh::MinHeap<int> minheap(10);
+			const int* const ptr_to_heap_in_minheap = rhTest::get_ptr_to_heap(minheap);
+			const std::vector<int> test_vec = { 50, 25, 75, 100, 99, 101, -1, -2, -3, -1 };
+			const std::vector<int> arranged_vec = { -3, -2, 25, -1, -1, 101, 75, 100, 50, 99 };
+			for (int num : test_vec)
+				mh_ori.insert(num);
 
-			rh::MinHeap<int> mh(10);
-			mh.insert(3);
-			mh.insert(2);
-			mh.insert(1);
 
-			mh_copy.copy(mh);
-			
-			mh.clear();
-			for (int i = 0; i < 12; i++)
-				mh.insert(1);
-			Assert::AreEqual(12, mh.size());
+			minheap.copy(mh_ori);
+			mh_ori.clear();
+			for (int i = 0; i < 20; i++)
+				mh_ori.insert(42);
+			Assert::AreEqual(42, mh_ori.peek());
 
-			Assert::AreEqual(3, mh_copy.size());
-			Assert::AreEqual(true, mh_copy.isFull());
-			Assert::AreEqual(1, mh_copy.extractMin());
-			Assert::AreEqual(2, mh_copy.extractMin());
-			Assert::AreEqual(3, mh_copy.extractMin());
+
+			Assert::AreEqual(10, rhTest::get_m_size(minheap));
+			Assert::AreEqual(10, rhTest::get_m_capacity(minheap));
+			Assert::AreEqual(ptr_to_heap_in_minheap, (const int* const)rhTest::get_ptr_to_heap(minheap));
+			int data;
+			for (int i = 0; i < arranged_vec.size(); i++)
+			{
+				data = *(ptr_to_heap_in_minheap + i);
+				Assert::AreEqual(arranged_vec[i], data);
+			}
+			data = *(ptr_to_heap_in_minheap + 10);
+			Assert::AreEqual((int)0xFDFDFDFD, data);
 		}
 
 		TEST_METHOD(copy_with_resizing)
 		{
-			rh::MinHeap<int> mh_copy(3);
-			mh_copy.insert(42);
-			mh_copy.insert(21);
+			rh::MinHeap<int> mh_ori(15);
+			rh::MinHeap<int> minheap(10);
+			const int* ptr_to_heap_in_minheap = rhTest::get_ptr_to_heap(minheap);
+			const std::vector<int> test_vec = { 50, 25, 75, 100, 99, 101, -1, -2, -3, -1, 3 };
+			const std::vector<int> arranged_vec = { -3, -2, 25, -1, -1, 101, 75, 100, 50, 99, 3 };
+			for (int num : test_vec)
+				mh_ori.insert(num);
 
-			rh::MinHeap<int> mh(10);
-			mh.insert(3);
-			mh.insert(2);
-			mh.insert(1);
-			mh.insert(12);
-			mh.insert(23);
 
-			mh_copy.copy(mh);
-			
-			mh.clear();
-			for (int i = 0; i < 12; i++)
-				mh.insert(1);
-			Assert::AreEqual(12, mh.size());
+			minheap.copy(mh_ori);
+			mh_ori.clear();
+			for (int i = 0; i < 20; i++)
+				mh_ori.insert(42);
+			Assert::AreEqual(42, mh_ori.peek());
 
-			Assert::AreEqual(5, mh_copy.size());
-			Assert::AreEqual(true, mh_copy.isFull());
-			Assert::AreEqual(1, mh_copy.extractMin());
-			Assert::AreEqual(2, mh_copy.extractMin());
-			Assert::AreEqual(3, mh_copy.extractMin());
-			Assert::AreEqual(12, mh_copy.extractMin());
-			Assert::AreEqual(23, mh_copy.extractMin());
+
+			Assert::AreEqual(11, rhTest::get_m_size(minheap));
+			Assert::AreEqual(11, rhTest::get_m_capacity(minheap));
+			Assert::AreNotEqual(ptr_to_heap_in_minheap, (const int* const)rhTest::get_ptr_to_heap(minheap));
+			int data;
+			ptr_to_heap_in_minheap = rhTest::get_ptr_to_heap(minheap);
+			for (int i = 0; i < arranged_vec.size(); i++)
+			{
+				data = *(ptr_to_heap_in_minheap + i);
+				Assert::AreEqual(arranged_vec[i], data);
+			}
+			data = *(ptr_to_heap_in_minheap + 11);
+			Assert::AreEqual((int)0xFDFDFDFD, data);
 		}
 
 		TEST_METHOD(operatorEqual_without_resizing)
 		{
-			rh::MinHeap<int> mh_copy(3);
-			mh_copy.insert(42);
-			mh_copy.insert(-21);
+			rh::MinHeap<int> mh_ori(15);
+			rh::MinHeap<int> minheap(10);
+			const int* const ptr_to_heap_in_minheap = rhTest::get_ptr_to_heap(minheap);
+			const std::vector<int> test_vec = { 50, 25, 75, 100, 99, 101, -1, -2, -3, -1 };
+			const std::vector<int> arranged_vec = { -3, -2, 25, -1, -1, 101, 75, 100, 50, 99 };
+			for (int num : test_vec)
+				mh_ori.insert(num);
 
-			rh::MinHeap<int> mh(10);
-			mh.insert(3);
-			mh.insert(-2);
 
-			mh_copy = mh;
-			
-			mh.clear();
-			for (int i = 0; i < 12; i++)
-				mh.insert(1);
-			Assert::AreEqual(12, mh.size());
+			minheap = mh_ori;
+			mh_ori.clear();
+			for (int i = 0; i < 20; i++)
+				mh_ori.insert(42);
+			Assert::AreEqual(42, mh_ori.peek());
 
-			Assert::AreEqual(2, mh_copy.size());
-			Assert::AreEqual(false, mh_copy.isFull());
 
-			mh_copy.insert(1);
-			Assert::AreEqual(true, mh_copy.isFull());
-			Assert::AreEqual(-2, mh_copy.extractMin());
-			Assert::AreEqual(1, mh_copy.extractMin());
-			Assert::AreEqual(3, mh_copy.extractMin());
+			Assert::AreEqual(10, rhTest::get_m_size(minheap));
+			Assert::AreEqual(10, rhTest::get_m_capacity(minheap));
+			Assert::AreEqual(ptr_to_heap_in_minheap, (const int* const)rhTest::get_ptr_to_heap(minheap));
+			int data;
+			for (int i = 0; i < arranged_vec.size(); i++)
+			{
+				data = *(ptr_to_heap_in_minheap + i);
+				Assert::AreEqual(arranged_vec[i], data);
+			}
+			data = *(ptr_to_heap_in_minheap + 10);
+			Assert::AreEqual((int)0xFDFDFDFD, data);
 		}
 
 		TEST_METHOD(operatorEqual_with_resizing)
 		{
-			rh::MinHeap<int> mh_copy(3);
-			mh_copy.insert(-42);
-			mh_copy.insert(21);
+			rh::MinHeap<int> mh_ori(15);
+			rh::MinHeap<int> minheap(10);
+			const int* ptr_to_heap_in_minheap = rhTest::get_ptr_to_heap(minheap);
+			const std::vector<int> test_vec = { 50, 25, 75, 100, 99, 101, -1, -2, -3, -1, 3 };
+			const std::vector<int> arranged_vec = { -3, -2, 25, -1, -1, 101, 75, 100, 50, 99, 3 };
+			for (int num : test_vec)
+				mh_ori.insert(num);
 
-			rh::MinHeap<int> mh(10);
-			mh.insert(-3);
-			mh.insert(2);
-			mh.insert(-1);
-			mh.insert(12);
-			mh.insert(-23);
 
-			mh_copy = mh;
+			minheap = mh_ori;
+			mh_ori.clear();
+			for (int i = 0; i < 20; i++)
+				mh_ori.insert(42);
+			Assert::AreEqual(42, mh_ori.peek());
 
-			mh.clear();
-			for (int i = 0; i < 12; i++)
-				mh.insert(1);
-			Assert::AreEqual(12, mh.size());
 
-			Assert::AreEqual(5, mh_copy.size());
-			Assert::AreEqual(true, mh_copy.isFull());
-			Assert::AreEqual(-23, mh_copy.extractMin());
-			Assert::AreEqual(-3, mh_copy.extractMin());
-			Assert::AreEqual(-1, mh_copy.extractMin());
-			Assert::AreEqual(2, mh_copy.extractMin());
-			Assert::AreEqual(12, mh_copy.extractMin());
+			Assert::AreEqual(11, rhTest::get_m_size(minheap));
+			Assert::AreEqual(11, rhTest::get_m_capacity(minheap));
+			Assert::AreNotEqual(ptr_to_heap_in_minheap, (const int* const)rhTest::get_ptr_to_heap(minheap));
+			int data;
+			ptr_to_heap_in_minheap = rhTest::get_ptr_to_heap(minheap);
+			for (int i = 0; i < arranged_vec.size(); i++)
+			{
+				data = *(ptr_to_heap_in_minheap + i);
+				Assert::AreEqual(arranged_vec[i], data);
+			}
+			data = *(ptr_to_heap_in_minheap + 11);
+			Assert::AreEqual((int)0xFDFDFDFD, data);
 		}
 
 	};

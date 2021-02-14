@@ -157,6 +157,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="BinarySearchTests.cpp" />
+    <ClCompile Include="MaxHeapTests.cpp" />
     <ClCompile Include="MinHeapTests.cpp" />
     <ClCompile Include="QueueTests.cpp" />
     <ClCompile Include="StackTests.cpp" />
@@ -168,6 +169,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="MinMaxHeap_Test_Utills.h" />
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
