@@ -28,7 +28,7 @@ namespace rh {
 
         void insert(T elem);
         T peek() const { return m_heap[0]; };
-        void deleteRoot();
+        void removeRoot();
         T extractRoot();
 
         int size() const { return m_size; };
@@ -81,18 +81,21 @@ namespace rh {
     }
 
     template <typename T>
-    void MinHeap<T>::deleteRoot()
+    void MinHeap<T>::removeRoot()
     {
-        swap(0, m_size - 1);
-        --m_size;
-        heapifyDown(0);
+        if (m_size > 0)
+        {
+            swap(0, m_size - 1);
+            --m_size;
+            heapifyDown(0);
+        }
     }
 
     template <typename T>
     T MinHeap<T>::extractRoot()
     {
         T res = m_heap[0];
-        deleteRoot();
+        removeRoot();
         return res;
     }
 

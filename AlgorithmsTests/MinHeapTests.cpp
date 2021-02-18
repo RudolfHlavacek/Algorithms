@@ -97,7 +97,7 @@ namespace AlgorithmsTests
 			}
 		}
 
-		//// TODO getMIN bez insertovaneho prvku. deleteRoot a extract min to same
+		//// TODO getMIN bez insertovaneho prvku. removeRoot a extract min to same
 		TEST_METHOD(insert)
 		{
 			const std::vector<int> test_vec = { 50, 25, 75, 100, 99, 101, -1, -2, -3, -1, 1, 0, 2, 3 };
@@ -140,7 +140,7 @@ namespace AlgorithmsTests
 
 		}
 
-		TEST_METHOD(deleteRoot)
+		TEST_METHOD(removeRoot)
 		{
 			const std::vector<int> test_vec = { 50, 25, 75, 100, 99, 101, -1, -2, -3, -1, 1, 0, 2, 3 };
 			const std::vector<std::vector<int>> arranged_vectors = { {-2, -1, 0, 50, -1, 2, 3, 100, 75, 99, 1, 101, 25},
@@ -164,7 +164,7 @@ namespace AlgorithmsTests
 			const int* const ptr_to_heap = rhTest::get_ptr_to_heap(minheap);
 			for (std::vector<int> vec : arranged_vectors)
 			{
-				minheap.deleteRoot();
+				minheap.removeRoot();
 				Assert::AreEqual((int)vec.size(), rhTest::get_m_size(minheap));
 				Assert::AreEqual(15, rhTest::get_m_capacity(minheap));
 				for (int i = 0; i < vec.size(); i++)
@@ -174,6 +174,16 @@ namespace AlgorithmsTests
 				}
 			}
 		}
+
+		TEST_METHOD(removeRoot_empty_heap)
+		{
+			rh::MinHeap<int> minheap(5);
+			for (int i = 0; i < 5; i++)
+				minheap.removeRoot();
+
+			Assert::AreEqual(0, rhTest::get_m_size(minheap));
+		}
+
 		TEST_METHOD(extractRoot)
 		{
 			const std::vector<int> test_vec = { 50, 25, 75, 100, 99, 101, -1, -2, -3, -1, 1, 0, 2, 3 };
@@ -225,7 +235,7 @@ namespace AlgorithmsTests
 			ptr_to_heap = rhTest::get_ptr_to_heap(minheap);
 			Assert::AreEqual(ptr_to_heap_after_instantiation, ptr_to_heap);
 
-			minheap.deleteRoot();
+			minheap.removeRoot();
 			ptr_to_heap = rhTest::get_ptr_to_heap(minheap);
 			Assert::AreEqual(ptr_to_heap_after_instantiation, ptr_to_heap);
 

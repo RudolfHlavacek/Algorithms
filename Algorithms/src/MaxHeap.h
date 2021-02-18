@@ -28,7 +28,7 @@ namespace rh {
 
         void insert(T elem);
         T peek() const { return m_heap[0]; };
-        void deleteRoot();
+        void removeRoot();
         T extractRoot();
 
         int size() const { return m_size; };
@@ -81,7 +81,7 @@ namespace rh {
     }
 
     template <typename T>
-    void MaxHeap<T>::deleteRoot()
+    void MaxHeap<T>::removeRoot()
     {
         if (m_size > 0)
         {
@@ -95,7 +95,7 @@ namespace rh {
     T MaxHeap<T>::extractRoot()
     {
         T res = m_heap[0];
-        deleteRoot();
+        removeRoot();
         return res;
     }
 
