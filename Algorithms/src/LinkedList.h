@@ -35,11 +35,11 @@ namespace rh {
         //void delete_tail();
         void deleteTail();
         //void deleteAtPosition(inr position);
+        void deleteAll();
 
-        void display() // TODO predelat, aby nevytvarel Node*, ale pouze vracel hodnotu.
+        void display()
         {
-            Node* temp = new Node; // TODO nema byt new Node, staci pouze vytvorit pointer.
-            temp = m_head;
+            Node* temp = m_head;
             while (temp != nullptr)
             {
                 std::cout << temp->data << "\t";
@@ -64,17 +64,13 @@ namespace rh {
         Node* temp = new Node;
         temp->data = value;
         temp->next = nullptr;
+
         if (m_head == nullptr)
-        {
             m_head = temp;
-            m_tail = temp;
-            temp = nullptr; // TODO nemusi byt
-        }
         else
-        {
             m_tail->next = temp;
-            m_tail = temp;
-        }
+
+        m_tail = temp;
     }
 
     void LinkedList::insertHead(int value) // TODO neresi, kdyz pouziji jako prvni, bez zavolani fce createNode().
@@ -82,6 +78,10 @@ namespace rh {
         Node* temp = new Node;
         temp->data = value;
         temp->next = m_head;
+
+        if (m_head == nullptr)
+            m_tail = temp;
+
         m_head = temp;
     }
 
@@ -92,24 +92,41 @@ namespace rh {
 
     void LinkedList::deleteHead()
     {
-        Node* temp; // TODO Prvni dva radky myzu mergenout do jednoho.?
-        temp = m_head;
-        m_head = m_head->next;
-        delete temp;
+        if (m_head != nullptr)
+        {
+            Node* temp = m_head;
+            m_head = m_head->next;
+            delete temp;
+            
+            if (m_head == nullptr)
+                m_tail = nullptr;
+        }
     }
 
     void LinkedList::deleteTail() // TODO bude fungovat, kdyz je jenom jedno Node anebo zadny??
     {
-        Node* current;
+        Node* current = m_head;
         Node* previous = nullptr;
-        current = m_head;
         while (current->next != nullptr)
         {
             previous = current;
             current = current->next;
         }
         m_tail = previous;
-        previous->next = nullptr;
+
+        if (m_tail != nullptr)
+            previous->next = nullptr;
+        else
+            m_head = nullptr;
+
         delete current;
+    }
+
+    void LinkedList::deleteAll()
+    {
+        while (m_head != nullptr)
+        {
+            deleteHead();
+        }
     }
 }
