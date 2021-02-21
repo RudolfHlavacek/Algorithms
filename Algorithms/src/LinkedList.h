@@ -37,17 +37,17 @@ namespace rh {
         //void deleteAtPosition(inr position);
         void deleteAll();
 
-        void display()
-        {
-            Node* temp = m_head;
-            while (temp != nullptr)
-            {
-                std::cout << temp->data << "\t";
-                temp = temp->next;
-            }
-        }
     };
 
+    /*void displayLinkedList(LinkedList linkedList)
+    {
+        Node* temp = m_head;
+        while (temp != nullptr)
+        {
+            std::cout << temp->data << "\t";
+            temp = temp->next;
+        }
+    }*/
 
     LinkedList::LinkedList()
         : m_head(nullptr), m_tail(nullptr)
@@ -73,7 +73,7 @@ namespace rh {
         m_tail = temp;
     }
 
-    void LinkedList::insertHead(int value) // TODO neresi, kdyz pouziji jako prvni, bez zavolani fce createNode().
+    void LinkedList::insertHead(int value)
     {
         Node* temp = new Node;
         temp->data = value;
@@ -103,23 +103,26 @@ namespace rh {
         }
     }
 
-    void LinkedList::deleteTail() // TODO bude fungovat, kdyz je jenom jedno Node anebo zadny??
+    void LinkedList::deleteTail()
     {
-        Node* current = m_head;
-        Node* previous = nullptr;
-        while (current->next != nullptr)
+        if (m_head != nullptr)
         {
-            previous = current;
-            current = current->next;
+            Node* current = m_head;
+            Node* previous = nullptr;
+            while (current->next != nullptr)
+            {
+                previous = current;
+                current = current->next;
+            }
+            m_tail = previous;
+
+            if (m_tail != nullptr)
+                previous->next = nullptr;
+            else
+                m_head = nullptr;
+
+            delete current;
         }
-        m_tail = previous;
-
-        if (m_tail != nullptr)
-            previous->next = nullptr;
-        else
-            m_head = nullptr;
-
-        delete current;
     }
 
     void LinkedList::deleteAll()
