@@ -20,6 +20,22 @@ namespace rhTest {
         T* m_heap;
     };
 
+    //template <typename T>
+    //class MinMaxHeap_friendClass
+    //{
+    //public:
+    //    rh::MinHeap<T>* m_ptr_to_minheap;
+    //    //rh::MaxHeap<T>* m_ptr_to_maxheap;
+
+    //    MinMaxHeap_friendClass(const rh::MinHeap<T>& other) : m_ptr_to_minheap(&other), m_ptr_to_minheap(nullptr) {};
+    //    //MinMaxHeap_friendClass(const rh::MaxHeap<T>& other) : m_ptr_to_minheap(nullptr), m_ptr_to_minheap(other) {};
+
+    //    int getSize() const
+    //    {
+    //        return (m_ptr_to_minheap != nullptr) ? m_ptr_to_minheap->m_size : ;
+    //    }
+    //};
+
     /*template <typename T>
     int get_m_size(const rh::MinHeap<T>& instance)
     {
