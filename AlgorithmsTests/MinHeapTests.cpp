@@ -103,7 +103,7 @@ namespace AlgorithmsTests
 				minheap.insert(num);
 
 			int* ptr_to_data = ptr_reint->m_heap;
-			for (int i = 0; i < arranged_vec.size(); i++)
+			for (unsigned int i = 0; i < arranged_vec.size(); i++)
 				Assert::AreEqual(arranged_vec[i], ptr_to_data[i]);
 		}
 
@@ -124,7 +124,7 @@ namespace AlgorithmsTests
 			{
 				Assert::AreEqual(-3, minheap.peek());
 				int* ptr_to_heap = ptr_reint->m_heap;
-				for (int k = 0; k < arranged_vec.size(); k++)
+				for (unsigned int k = 0; k < arranged_vec.size(); k++)
 				{
 					int data = *(ptr_to_heap + k);
 					Assert::AreEqual(arranged_vec[k], data);
@@ -163,7 +163,7 @@ namespace AlgorithmsTests
 				Assert::AreEqual((int)vec.size(), ptr_to_reint->m_size);
 				Assert::AreEqual(15, ptr_to_reint->m_capacity);
 
-				for (int i = 0; i < vec.size(); i++)
+				for (unsigned int i = 0; i < vec.size(); i++)
 					Assert::AreEqual(vec[i], ptr_data[i]);
 			}
 		}
@@ -211,7 +211,7 @@ namespace AlgorithmsTests
 				Assert::AreEqual(res_vec[i++], minheap.extractRoot());
 				Assert::AreEqual((int)vec.size(), ptr_reint->m_size);
 				Assert::AreEqual(15, ptr_reint->m_capacity);
-				for (int k = 0; k < vec.size(); k++)
+				for (unsigned int k = 0; k < vec.size(); k++)
 				{
 					Assert::AreEqual(vec[k], ptr_data[k]);
 				}
@@ -519,7 +519,7 @@ namespace AlgorithmsTests
 			Assert::AreEqual(14, ptr_reint->m_size);
 			Assert::AreEqual(15, ptr_reint->m_capacity);
 
-			for (int i = 0; i < arranged_vec.size(); i++)
+			for (unsigned int i = 0; i < arranged_vec.size(); i++)
 				Assert::AreEqual(arranged_vec[i], ptr_data[i]);
 
 			Assert::AreEqual(HEAP_ALLOCATED_MARK, (unsigned int)ptr_data[14]);
@@ -549,7 +549,7 @@ namespace AlgorithmsTests
 			Assert::AreEqual(10, ptr_reint->m_capacity);
 			Assert::AreEqual(ptr_heap_init, (const int* const)ptr_reint->m_heap);
 
-			for (int i = 0; i < arranged_vec.size(); i++)
+			for (unsigned int i = 0; i < arranged_vec.size(); i++)
 				Assert::AreEqual(arranged_vec[i], ptr_reint->m_heap[i]);
 
 			Assert::AreEqual(HEAP_END_MARK, (unsigned int)ptr_reint->m_heap[10]);
@@ -579,7 +579,7 @@ namespace AlgorithmsTests
 			Assert::AreEqual(11, ptr_reint->m_capacity);
 			Assert::AreNotEqual(ptr_heap_init, (const int* const)ptr_reint->m_heap);
 
-			for (int i = 0; i < arranged_vec.size(); i++)
+			for (unsigned int i = 0; i < arranged_vec.size(); i++)
 				Assert::AreEqual(arranged_vec[i], ptr_reint->m_heap[i]);
 
 			Assert::AreEqual(HEAP_END_MARK, (unsigned int)ptr_reint->m_heap[11]);
@@ -609,7 +609,7 @@ namespace AlgorithmsTests
 			Assert::AreEqual(10, ptr_reint->m_capacity);
 			Assert::AreEqual(ptr_heap_init, (const int* const)ptr_reint->m_heap);
 
-			for (int i = 0; i < arranged_vec.size(); i++)
+			for (unsigned int i = 0; i < arranged_vec.size(); i++)
 				Assert::AreEqual(arranged_vec[i], ptr_reint->m_heap[i]);
 
 			Assert::AreEqual(HEAP_END_MARK, (unsigned int)ptr_reint->m_heap[10]);
@@ -639,7 +639,7 @@ namespace AlgorithmsTests
 			Assert::AreEqual(11, ptr_reint->m_capacity);
 			Assert::AreNotEqual(ptr_heap_init, (const int* const)ptr_reint->m_heap);
 
-			for (int i = 0; i < arranged_vec.size(); i++)
+			for (unsigned int i = 0; i < arranged_vec.size(); i++)
 				Assert::AreEqual(arranged_vec[i], ptr_reint->m_heap[i]);
 
 			Assert::AreEqual(HEAP_END_MARK, (unsigned int)ptr_reint->m_heap[11]);
