@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -157,6 +157,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="BinarySearchTests.cpp" />
+    <ClCompile Include="LinkedListTests.cpp" />
     <ClCompile Include="MaxHeapTests.cpp" />
     <ClCompile Include="MinHeapTests.cpp" />
     <ClCompile Include="QueueTests.cpp" />
@@ -169,8 +170,11 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="LinkedList_Test_Utils.h" />
     <ClInclude Include="MinMaxHeap_Test_Utills.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="Pokus.h" />
+    <ClInclude Include="privablic.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Algorithms\Algorithms.vcxproj">

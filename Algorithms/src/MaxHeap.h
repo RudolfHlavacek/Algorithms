@@ -1,5 +1,6 @@
 #pragma once
 
+
 namespace rh {
     /******************************************************************************/
     /*                                Declarations                                */
@@ -38,6 +39,7 @@ namespace rh {
 
         void copy(const MaxHeap<T>& other);
         void operator=(const MaxHeap<T>& other) { this->copy(other); };
+
     };
 
 
