@@ -2,13 +2,12 @@
 #include "CppUnitTest.h"
 
 #include "..\Algorithms\src\MaxHeap.h"
-//#include "MinMaxHeap_Test_Utills.h"
 
 #include <vector>
 #include <random>
 
 #include "privablic.h"
-#include "Pokus.h"
+#include "MaxHeap_Test_Utils.h"
 
 #define HEAP_ALLOCATED_MARK (int)0xCDCDCDCD
 #define HEAP_END_MARK (int)0xFDFDFDFD
@@ -598,12 +597,12 @@ namespace AlgorithmsTests
 
 			Assert::AreEqual(0, size);
 			Assert::AreEqual(3, capacity);
-			Assert::AreEqual(ptr_to_init_heap_alloc, ptr_new_heap); // TODO mozna uz mam v no_reallocation
 		}
 
 		TEST_METHOD(_CopyCtor)
 		{
 			MaxHeap<int> mh_ori(15);
+			const int* const ptr_original_heap = mh_ori.*member<MaxHeap_m_heap>::value;
 			const std::vector<int> test_vec = { 50, 25, 75, 100, 99, 101, -1, -2, -3, -1, 1, 0, 2, 3 };
 			const std::vector<int> arranged_vec = { 101, 99, 100, 25, 75, 50, 3, -2, -3, -1, 1, 0, 2, -1 };
 			for (int num : test_vec)
@@ -630,8 +629,9 @@ namespace AlgorithmsTests
 
 			Assert::AreEqual(HEAP_ALLOCATED_MARK, ptr_heap[14]);
 			Assert::AreEqual(HEAP_END_MARK, ptr_heap[15]);
+
+			Assert::AreNotEqual(ptr_original_heap, ptr_heap);
 		}
-		// TODO Copy ctor deep copy
 
 		TEST_METHOD(copy__without_resizing)
 		{

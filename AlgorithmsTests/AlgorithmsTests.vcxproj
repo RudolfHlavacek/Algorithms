@@ -171,9 +171,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="LinkedList_Test_Utils.h" />
-    <ClInclude Include="MinMaxHeap_Test_Utills.h" />
+    <ClInclude Include="MinHeap_Test_Utills.h" />
     <ClInclude Include="pch.h" />
-    <ClInclude Include="Pokus.h" />
+    <ClInclude Include="MaxHeap_Test_Utils.h" />
     <ClInclude Include="privablic.h" />
   </ItemGroup>
   <ItemGroup>

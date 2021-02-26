@@ -41,13 +41,16 @@
     <ClInclude Include="pch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="MinMaxHeap_Test_Utills.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="LinkedList_Test_Utils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Pokus.h">
+    <ClInclude Include="privablic.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MinHeap_Test_Utills.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MaxHeap_Test_Utils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

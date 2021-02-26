@@ -2,7 +2,7 @@
 #include "CppUnitTest.h"
 
 #include "..\Algorithms\src\MinHeap.h"
-#include "MinMaxHeap_Test_Utills.h"
+#include "MinHeap_Test_Utills.h"
 
 #include <vector>
 #include <random>
@@ -26,7 +26,7 @@ namespace AlgorithmsTests
 		{
 			const int max_capacity = 3;
 			MinHeap<unsigned int> minheap(max_capacity);
-			auto ptr_to_reint = reinterpret_cast<rhTest::MinMaxHeap_for_reint<unsigned int>*>(&minheap);
+			auto ptr_to_reint = reinterpret_cast<rhTest::MinHeap_for_reint<unsigned int>*>(&minheap);
 
 			ptr_to_reint;
 			Assert::AreEqual(0, ptr_to_reint->m_size);
@@ -42,7 +42,7 @@ namespace AlgorithmsTests
 		TEST_METHOD(_Ctor__negative_number)
 		{
 			MinHeap<unsigned int> minheap(-1);
-			auto ptr_to_reint = reinterpret_cast<rhTest::MinMaxHeap_for_reint<unsigned int>*>(&minheap);
+			auto ptr_to_reint = reinterpret_cast<rhTest::MinHeap_for_reint<unsigned int>*>(&minheap);
 			unsigned int* ptr_to_data = ptr_to_reint->m_heap;
 
 			Assert::AreEqual(0, ptr_to_reint->m_size);
@@ -54,7 +54,7 @@ namespace AlgorithmsTests
 		TEST_METHOD(_Ctor__without_params)
 		{
 			MinHeap<unsigned int> minheap;
-			auto ptr_to_reint = reinterpret_cast<rhTest::MinMaxHeap_for_reint<unsigned int>*>(&minheap);
+			auto ptr_to_reint = reinterpret_cast<rhTest::MinHeap_for_reint<unsigned int>*>(&minheap);
 			unsigned int* ptr_to_data = ptr_to_reint->m_heap;
 
 			Assert::AreEqual(0, ptr_to_reint->m_size);
@@ -66,7 +66,7 @@ namespace AlgorithmsTests
 		TEST_METHOD(_Ctor__zero_number)
 		{
 			MinHeap<unsigned int> minheap(0);
-			auto ptr_to_reint = reinterpret_cast<rhTest::MinMaxHeap_for_reint<unsigned int>*>(&minheap);
+			auto ptr_to_reint = reinterpret_cast<rhTest::MinHeap_for_reint<unsigned int>*>(&minheap);
 			unsigned int* ptr_to_data = ptr_to_reint->m_heap;
 
 			Assert::AreEqual(0, ptr_to_reint->m_size);
@@ -80,7 +80,7 @@ namespace AlgorithmsTests
 			unsigned int* ptr_to_data = nullptr;
 			{
 				MinHeap<unsigned int> minheap(5);
-				auto ptr_reint = reinterpret_cast<rhTest::MinMaxHeap_for_reint<unsigned int>*>(&minheap);
+				auto ptr_reint = reinterpret_cast<rhTest::MinHeap_for_reint<unsigned int>*>(&minheap);
 				minheap.insert(9);
 				minheap.insert(10);
 				minheap.insert(11);
@@ -97,7 +97,7 @@ namespace AlgorithmsTests
 			const std::vector<int> test_vec = { 50, 25, 75, 100, 99, 101, -1, -2, -3, -1, 1, 0, 2, 3 };
 			const std::vector<int> arranged_vec = { -3, -2, 0, -1, -1, 2, 3, 100, 50, 99, 1, 101, 25, 75 };
 			MinHeap<int> minheap(14);
-			auto ptr_reint = reinterpret_cast<rhTest::MinMaxHeap_for_reint<int>*>(&minheap);
+			auto ptr_reint = reinterpret_cast<rhTest::MinHeap_for_reint<int>*>(&minheap);
 
 			for (int num : test_vec)
 				minheap.insert(num);
@@ -112,7 +112,7 @@ namespace AlgorithmsTests
 			const std::vector<int> test_vec = { 50, 25, 75, 100, 99, 101, -1, -2, -3, -1, 1, 0, 2, 3 };
 			const std::vector<int> arranged_vec = { -3, -2, 0, -1, -1, 2, 3, 100, 50, 99, 1, 101, 25, 75 };
 			MinHeap<int> minheap(15);
-			auto ptr_reint = reinterpret_cast<rhTest::MinMaxHeap_for_reint<int>*>(&minheap);
+			auto ptr_reint = reinterpret_cast<rhTest::MinHeap_for_reint<int>*>(&minheap);
 
 			for (int num : test_vec)
 				minheap.insert(num);
@@ -149,7 +149,7 @@ namespace AlgorithmsTests
 																	 {100, 101},
 																	 {101} };
 			MinHeap<int> minheap(15);
-			auto ptr_to_reint = reinterpret_cast<rhTest::MinMaxHeap_for_reint<int>*>(&minheap);
+			auto ptr_to_reint = reinterpret_cast<rhTest::MinHeap_for_reint<int>*>(&minheap);
 
 			for (int num : test_vec)
 				minheap.insert(num);
@@ -171,7 +171,7 @@ namespace AlgorithmsTests
 		TEST_METHOD(removeRoot_empty_heap)
 		{
 			MinHeap<int> minheap(5);
-			auto ptr_reint = reinterpret_cast<rhTest::MinMaxHeap_for_reint<int>*>(&minheap);
+			auto ptr_reint = reinterpret_cast<rhTest::MinHeap_for_reint<int>*>(&minheap);
 			for (int i = 0; i < 5; i++)
 				minheap.removeRoot();
 
@@ -197,7 +197,7 @@ namespace AlgorithmsTests
 																	 {100, 101},
 																	 {101} };
 			MinHeap<int> minheap(15);
-			auto ptr_reint = reinterpret_cast<rhTest::MinMaxHeap_for_reint<int>*>(&minheap);
+			auto ptr_reint = reinterpret_cast<rhTest::MinHeap_for_reint<int>*>(&minheap);
 
 			for (int num : test_vec)
 				minheap.insert(num);
@@ -221,7 +221,7 @@ namespace AlgorithmsTests
 		TEST_METHOD(no_reallocation)
 		{
 			MinHeap<int> minheap(10);
-			auto ptr_reint = reinterpret_cast<rhTest::MinMaxHeap_for_reint<int>*>(&minheap);
+			auto ptr_reint = reinterpret_cast<rhTest::MinHeap_for_reint<int>*>(&minheap);
 			int* ptr_to_heap_after_instantiation = ptr_reint->m_heap;
 
 			minheap.insert(42);
@@ -249,7 +249,7 @@ namespace AlgorithmsTests
 			const int max_runs = 1000;
 
 			MinHeap<int> minheap(14);
-			auto ptr_reint = reinterpret_cast<rhTest::MinMaxHeap_for_reint<int>*>(&minheap);
+			auto ptr_reint = reinterpret_cast<rhTest::MinHeap_for_reint<int>*>(&minheap);
 			std::vector<int> test_vec = { 50, 25, 75, 100, 99, 101, -1, -2, -3, -1, 1, 0, 2, 3 };
 			const std::vector<int> res_vec = { -3, -2, -1, -1, 0, 1, 2, 3, 25, 50, 75, 99, 100, 101 };
 			auto randgen = std::default_random_engine{};
@@ -273,7 +273,7 @@ namespace AlgorithmsTests
 		{
 			const int max_capacity = 10;
 			MinHeap<int> minheap(max_capacity);
-			auto ptr_reint = reinterpret_cast<rhTest::MinMaxHeap_for_reint<int>*>(&minheap);
+			auto ptr_reint = reinterpret_cast<rhTest::MinHeap_for_reint<int>*>(&minheap);
 			ptr_reint->m_size = 8;
 
 			Assert::AreEqual(8, minheap.size());
@@ -293,7 +293,7 @@ namespace AlgorithmsTests
 			// case 4: new_capacity is equal to current capacity
 
 			MinHeap<int> minheap(5);
-			auto ptr_reint = reinterpret_cast<rhTest::MinMaxHeap_for_reint<int>*>(&minheap);
+			auto ptr_reint = reinterpret_cast<rhTest::MinHeap_for_reint<int>*>(&minheap);
 			const int* const ptr_to_init_heap = ptr_reint->m_heap;
 			minheap.insert(10);
 			minheap.insert(11);
@@ -337,7 +337,7 @@ namespace AlgorithmsTests
 			// case 1:
 			{
 				MinHeap<int> minheap(5);
-				auto ptr_reint = reinterpret_cast<rhTest::MinMaxHeap_for_reint<int>*>(&minheap);
+				auto ptr_reint = reinterpret_cast<rhTest::MinHeap_for_reint<int>*>(&minheap);
 				const int* const ptr_heap_init = ptr_reint->m_heap;
 				minheap.insert(10);
 				minheap.insert(11);
@@ -361,7 +361,7 @@ namespace AlgorithmsTests
 			// case 2:
 			{
 				MinHeap<int> minheap(5);
-				auto ptr_reint = reinterpret_cast<rhTest::MinMaxHeap_for_reint<int>*>(&minheap);
+				auto ptr_reint = reinterpret_cast<rhTest::MinHeap_for_reint<int>*>(&minheap);
 				const int* const ptr_heap_init = ptr_reint->m_heap;
 				minheap.insert(10);
 				minheap.insert(11);
@@ -385,7 +385,7 @@ namespace AlgorithmsTests
 			// case 3:
 			{
 				MinHeap<int> minheap(5);
-				auto ptr_reint = reinterpret_cast<rhTest::MinMaxHeap_for_reint<int>*>(&minheap);
+				auto ptr_reint = reinterpret_cast<rhTest::MinHeap_for_reint<int>*>(&minheap);
 				const int* const ptr_heap_init = ptr_reint->m_heap;
 				minheap.insert(10);
 				minheap.insert(11);
@@ -417,7 +417,7 @@ namespace AlgorithmsTests
 			// case 1:
 			{
 				MinHeap<int> minheap(5);
-				auto ptr_reint = reinterpret_cast<rhTest::MinMaxHeap_for_reint<int>*>(&minheap);
+				auto ptr_reint = reinterpret_cast<rhTest::MinHeap_for_reint<int>*>(&minheap);
 				const int* const ptr_to_init_heap_alloc = ptr_reint->m_heap;
 				minheap.insert(9);
 				minheap.insert(10);
@@ -441,7 +441,7 @@ namespace AlgorithmsTests
 			// case 2:
 			{
 				MinHeap<int> minheap(3);
-				auto ptr_reint = reinterpret_cast<rhTest::MinMaxHeap_for_reint<int>*>(&minheap);
+				auto ptr_reint = reinterpret_cast<rhTest::MinHeap_for_reint<int>*>(&minheap);
 				const int* const ptr_to_init_heap_alloc = ptr_reint->m_heap;
 				minheap.insert(9);
 				minheap.insert(10);
@@ -464,7 +464,7 @@ namespace AlgorithmsTests
 			// case 3:
 			{
 				MinHeap<int> minheap(5);
-				auto ptr_reint = reinterpret_cast<rhTest::MinMaxHeap_for_reint<int>*>(&minheap);
+				auto ptr_reint = reinterpret_cast<rhTest::MinHeap_for_reint<int>*>(&minheap);
 				const int* const ptr_to_init_heap_alloc = ptr_reint->m_heap;
 
 
@@ -484,7 +484,7 @@ namespace AlgorithmsTests
 		TEST_METHOD(clear)
 		{
 			MinHeap<int> minheap(3);
-			auto ptr_reint = reinterpret_cast<rhTest::MinMaxHeap_for_reint<int>*>(&minheap);
+			auto ptr_reint = reinterpret_cast<rhTest::MinHeap_for_reint<int>*>(&minheap);
 			const int* const ptr_to_init_heap_alloc = ptr_reint->m_heap;
 
 			minheap.insert(42);
@@ -508,7 +508,7 @@ namespace AlgorithmsTests
 
 
 			MinHeap<int> minheap(mh_ori);
-			auto ptr_reint = reinterpret_cast<rhTest::MinMaxHeap_for_reint<int>*>(&minheap);
+			auto ptr_reint = reinterpret_cast<rhTest::MinHeap_for_reint<int>*>(&minheap);
 			const int* const ptr_data = ptr_reint->m_heap;
 			mh_ori.clear();
 			for (int i = 0; i < 20; i++)
@@ -530,7 +530,7 @@ namespace AlgorithmsTests
 		{
 			MinHeap<int> mh_ori(15);
 			MinHeap<int> minheap(10);
-			auto ptr_reint = reinterpret_cast<rhTest::MinMaxHeap_for_reint<int>*>(&minheap);
+			auto ptr_reint = reinterpret_cast<rhTest::MinHeap_for_reint<int>*>(&minheap);
 			const int* const ptr_heap_init = ptr_reint->m_heap;
 			const std::vector<int> test_vec = { 50, 25, 75, 100, 99, 101, -1, -2, -3, -1 };
 			const std::vector<int> arranged_vec = { -3, -2, 25, -1, -1, 101, 75, 100, 50, 99 };
@@ -560,7 +560,7 @@ namespace AlgorithmsTests
 		{
 			MinHeap<int> mh_ori(15);
 			MinHeap<int> minheap(10);
-			auto ptr_reint = reinterpret_cast<rhTest::MinMaxHeap_for_reint<int>*>(&minheap);
+			auto ptr_reint = reinterpret_cast<rhTest::MinHeap_for_reint<int>*>(&minheap);
 			const int* const ptr_heap_init = ptr_reint->m_heap;
 			const std::vector<int> test_vec = { 50, 25, 75, 100, 99, 101, -1, -2, -3, -1, 3 };
 			const std::vector<int> arranged_vec = { -3, -2, 25, -1, -1, 101, 75, 100, 50, 99, 3 };
@@ -590,7 +590,7 @@ namespace AlgorithmsTests
 		{
 			MinHeap<int> mh_ori(15);
 			MinHeap<int> minheap(10);
-			auto ptr_reint = reinterpret_cast<rhTest::MinMaxHeap_for_reint<int>*>(&minheap);
+			auto ptr_reint = reinterpret_cast<rhTest::MinHeap_for_reint<int>*>(&minheap);
 			const int* const ptr_heap_init = ptr_reint->m_heap;
 			const std::vector<int> test_vec = { 50, 25, 75, 100, 99, 101, -1, -2, -3, -1 };
 			const std::vector<int> arranged_vec = { -3, -2, 25, -1, -1, 101, 75, 100, 50, 99 };
@@ -620,7 +620,7 @@ namespace AlgorithmsTests
 		{
 			MinHeap<int> mh_ori(15);
 			MinHeap<int> minheap(10);
-			auto ptr_reint = reinterpret_cast<rhTest::MinMaxHeap_for_reint<int>*>(&minheap);
+			auto ptr_reint = reinterpret_cast<rhTest::MinHeap_for_reint<int>*>(&minheap);
 			const int* const ptr_heap_init = ptr_reint->m_heap;
 			const std::vector<int> test_vec = { 50, 25, 75, 100, 99, 101, -1, -2, -3, -1, 3 };
 			const std::vector<int> arranged_vec = { -3, -2, 25, -1, -1, 101, 75, 100, 50, 99, 3 };
